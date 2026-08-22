@@ -14,11 +14,17 @@
         -webkit-tap-highlight-color: transparent;
     }
 
+    html,
     body {
         margin: 0;
+        width: 100%;
+        height: 100%;
         overflow: hidden;
         font-family: Arial, sans-serif;
-        background: #c9e8d0;
+    }
+
+    body {
+        background: #d9f0d2;
     }
 
     #game {
@@ -27,55 +33,10 @@
         height: 100vh;
         overflow: hidden;
 
-        background:
-            linear-gradient(
-                to bottom,
-                #bfe7f5 0%,
-                #dff2db 45%,
-                #94c77a 100%
-            );
-    }
-
-    /* =========================
-       ФОН ОРАНЖЕРЕИ
-       ========================= */
-
-    .greenhouse {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-    }
-
-    .glass-line {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        background: rgba(255,255,255,0.35);
-    }
-
-    .glass-line:nth-child(1) {
-        left: 20%;
-    }
-
-    .glass-line:nth-child(2) {
-        left: 40%;
-    }
-
-    .glass-line:nth-child(3) {
-        left: 60%;
-    }
-
-    .glass-line:nth-child(4) {
-        left: 80%;
-    }
-
-    .ground {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 28%;
-        background: #85b96d;
+        background-image: url("fon.PNG");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
     }
 
     /* =========================
@@ -84,19 +45,24 @@
 
     #progress {
         position: absolute;
-        top: 25px;
+        top: 24px;
         left: 50%;
         transform: translateX(-50%);
 
-        font-size: clamp(22px, 3vw, 38px);
-        font-weight: bold;
-        color: #356443;
+        z-index: 50;
 
-        background: rgba(255,255,255,0.8);
-        padding: 8px 22px;
+        padding: 10px 24px;
+
         border-radius: 30px;
 
-        z-index: 20;
+        background: rgba(255,255,255,0.9);
+
+        color: #4d704c;
+
+        font-size: clamp(20px, 2.4vw, 34px);
+        font-weight: 800;
+
+        box-shadow: 0 5px 14px rgba(0,0,0,0.12);
     }
 
     /* =========================
@@ -107,21 +73,24 @@
         position: absolute;
 
         left: 50%;
-        bottom: 12%;
+        bottom: 5%;
 
         transform: translateX(-50%);
 
-        width: 260px;
-        height: 410px;
+        width: min(34vw, 470px);
+        height: min(58vw, 650px);
 
-        z-index: 5;
+        min-width: 300px;
+        min-height: 430px;
+
+        z-index: 10;
     }
 
     /* =========================
-       ГОРШОК
+       ГОРШОК-КАРТИНКА
        ========================= */
 
-    #pot {
+    #potImage {
         position: absolute;
 
         left: 50%;
@@ -129,52 +98,46 @@
 
         transform: translateX(-50%);
 
-        width: 180px;
-        height: 140px;
+        width: 100%;
+        height: auto;
 
-        background: #d8784d;
+        object-fit: contain;
 
-        border-radius: 20px 20px 45px 45px;
+        z-index: 20;
 
-        box-shadow:
-            inset 0 -15px 0 rgba(0,0,0,0.08),
-            0 8px 12px rgba(0,0,0,0.15);
+        pointer-events: none;
 
-        z-index: 8;
+        filter: drop-shadow(
+            0 10px 8px rgba(0,0,0,0.16)
+        );
     }
 
-    #pot::before {
-        content: "";
-
-        position: absolute;
-
-        top: -20px;
-        left: -12px;
-
-        width: 204px;
-        height: 45px;
-
-        background: #e58b60;
-
-        border-radius: 15px;
-    }
+    /* =========================
+       БУКВА НА ТАБЛИЧКЕ
+       ========================= */
 
     #targetLetter {
         position: absolute;
 
         left: 50%;
-        top: 50%;
+        bottom: 17%;
 
-        transform: translate(-50%, -42%);
+        transform: translateX(-50%);
 
-        font-size: 70px;
+        z-index: 30;
+
+        font-size: clamp(50px, 6vw, 88px);
         font-weight: 900;
 
-        color: white;
+        color: #a4422e;
 
-        text-shadow: 0 4px 0 rgba(0,0,0,0.08);
+        line-height: 1;
 
-        z-index: 10;
+        text-shadow:
+            0 2px 0 rgba(255,255,255,0.5),
+            0 3px 2px rgba(0,0,0,0.08);
+
+        pointer-events: none;
     }
 
     /* =========================
@@ -185,18 +148,18 @@
         position: absolute;
 
         left: 50%;
-        bottom: 115px;
+        bottom: 52%;
 
-        width: 160px;
-        height: 250px;
+        width: 180px;
+        height: 230px;
 
         transform: translateX(-50%);
         transform-origin: bottom center;
 
-        z-index: 6;
+        z-index: 15;
 
         transition:
-            transform 0.9s ease,
+            transform 1s ease,
             opacity 0.5s ease;
     }
 
@@ -206,18 +169,21 @@
         left: 50%;
         bottom: 0;
 
-        width: 12px;
-        height: 65px;
+        width: 13px;
+        height: 62px;
 
         transform: translateX(-50%);
-        transform-origin: bottom;
+        transform-origin: bottom center;
+
+        background: #4d9b4d;
 
         border-radius: 20px;
 
-        background: #4c9b50;
+        box-shadow:
+            inset 2px 0 2px rgba(255,255,255,0.25);
 
         transition:
-            height 1.1s ease,
+            height 1.2s ease,
             transform 1s ease,
             background 0.8s ease;
     }
@@ -225,78 +191,108 @@
     .leaf {
         position: absolute;
 
-        width: 55px;
-        height: 28px;
+        width: 57px;
+        height: 31px;
 
-        background: #5fad5d;
+        background:
+            linear-gradient(
+                135deg,
+                #74c864,
+                #4f9f50
+            );
 
-        border-radius: 100% 0 100% 0;
+        border-radius:
+            100% 0 100% 0;
 
-        opacity: 1;
+        transform-origin: center;
 
         transition:
-            opacity 0.7s ease,
-            transform 1s ease;
+            transform 1s ease,
+            opacity 0.7s ease;
     }
 
     #leafLeft {
-        left: 19px;
-        bottom: 45px;
-        transform: rotate(-25deg);
+        left: 28px;
+        bottom: 40px;
+
+        transform:
+            rotate(-25deg)
+            scale(0.85);
     }
 
     #leafRight {
-        right: 19px;
-        bottom: 70px;
-        transform: scaleX(-1) rotate(-25deg);
+        right: 28px;
+        bottom: 64px;
+
+        transform:
+            scaleX(-1)
+            rotate(-25deg)
+            scale(0.85);
     }
+
+    /* =========================
+       ЦВЕТОК
+       ========================= */
 
     #flower {
         position: absolute;
 
         left: 50%;
-        bottom: 175px;
+        bottom: 158px;
 
-        transform: translateX(-50%) scale(0);
+        width: 120px;
+        height: 120px;
 
-        width: 110px;
-        height: 110px;
+        transform:
+            translateX(-50%)
+            scale(0);
 
-        transition:
-            transform 0.9s cubic-bezier(.3,1.4,.4,1);
+        transform-origin: center;
 
         z-index: 5;
+
+        transition:
+            transform 0.9s
+            cubic-bezier(.3,1.4,.4,1);
     }
 
     .petal {
         position: absolute;
 
-        width: 55px;
-        height: 55px;
-
-        background: #ffdb45;
+        width: 58px;
+        height: 58px;
 
         border-radius: 50%;
+
+        background:
+            linear-gradient(
+                145deg,
+                #ffe56b,
+                #f8c945
+            );
+
+        box-shadow:
+            inset 3px 3px 6px rgba(255,255,255,0.35);
     }
 
     .petal:nth-child(1) {
-        left: 28px;
         top: 0;
+        left: 31px;
     }
 
     .petal:nth-child(2) {
+        top: 31px;
         right: 0;
-        top: 28px;
     }
 
     .petal:nth-child(3) {
-        left: 28px;
         bottom: 0;
+        left: 31px;
     }
 
     .petal:nth-child(4) {
+        top: 31px;
         left: 0;
-        top: 28px;
     }
 
     .flower-center {
@@ -312,26 +308,32 @@
 
         border-radius: 50%;
 
-        background: #8e572d;
+        background:
+            radial-gradient(
+                circle at 35% 35%,
+                #a56b36,
+                #78471f
+            );
 
         z-index: 5;
     }
 
     /* =========================
        ЛЕЙКИ
+       ВРЕМЕННЫЕ
        ========================= */
 
     .watering-can {
         position: absolute;
 
-        bottom: 20%;
+        bottom: 13%;
 
-        width: 220px;
-        height: 190px;
+        width: 230px;
+        height: 195px;
 
         cursor: pointer;
 
-        z-index: 12;
+        z-index: 35;
 
         transform-origin: center;
 
@@ -339,68 +341,91 @@
             left 0.8s ease,
             right 0.8s ease,
             bottom 0.8s ease,
-            transform 0.6s ease;
+            transform 0.65s ease;
+
+        touch-action: manipulation;
     }
 
     #leftCan {
-        left: 7%;
+        left: 5%;
     }
 
     #rightCan {
-        right: 7%;
+        right: 5%;
     }
 
     .can-body {
         position: absolute;
 
-        width: 130px;
+        width: 132px;
         height: 100px;
 
-        left: 40px;
+        left: 48px;
         bottom: 10px;
 
-        background: #62acd6;
+        background:
+            linear-gradient(
+                145deg,
+                #78c1e7,
+                #4b97c8
+            );
 
-        border-radius: 25px 25px 30px 30px;
+        border-radius: 25px 25px 32px 32px;
 
-        border: 5px solid rgba(0,0,0,0.08);
+        border:
+            4px solid
+            rgba(255,255,255,0.24);
+
+        box-shadow:
+            0 8px 10px rgba(0,0,0,0.12),
+            inset 3px 3px 6px rgba(255,255,255,0.25);
     }
 
     .can-handle {
         position: absolute;
 
-        width: 100px;
+        width: 103px;
         height: 100px;
 
-        left: 55px;
-        bottom: 70px;
+        left: 62px;
+        bottom: 73px;
 
-        border: 18px solid #62acd6;
+        border:
+            18px solid
+            #62acd6;
+
         border-bottom: 0;
 
-        border-radius: 60px 60px 0 0;
+        border-radius:
+            60px 60px 0 0;
     }
 
     .can-spout {
         position: absolute;
 
-        width: 95px;
+        width: 96px;
         height: 32px;
 
-        left: 145px;
+        left: 160px;
         bottom: 48px;
 
-        background: #62acd6;
+        background: #5ba6d2;
 
-        transform: rotate(-20deg);
-        transform-origin: left center;
+        transform:
+            rotate(-20deg);
 
-        border-radius: 10px 35px 35px 10px;
+        transform-origin:
+            left center;
+
+        border-radius:
+            10px 35px 35px 10px;
     }
 
     #rightCan .can-spout {
-        left: -20px;
-        transform: rotate(20deg);
+        left: -25px;
+
+        transform:
+            rotate(20deg);
     }
 
     .picture {
@@ -409,7 +434,8 @@
         left: 50%;
         top: 50%;
 
-        transform: translate(-50%, -45%);
+        transform:
+            translate(-50%, -45%);
 
         width: 72px;
         height: 72px;
@@ -423,39 +449,19 @@
         justify-content: center;
 
         font-size: 42px;
-        font-weight: bold;
+        font-weight: 800;
 
         color: #526171;
 
-        z-index: 10;
+        box-shadow:
+            0 4px 9px rgba(0,0,0,0.12);
 
-        box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+        z-index: 10;
     }
 
     /* =========================
-       ВОДА
+       КАПЛИ
        ========================= */
-
-    .water-stream {
-        position: fixed;
-
-        width: 11px;
-        height: 0;
-
-        border-radius: 10px;
-
-        background: rgba(83,184,238,0.85);
-
-        opacity: 0;
-
-        z-index: 11;
-
-        transform-origin: top;
-
-        transition:
-            height 0.35s ease,
-            opacity 0.25s ease;
-    }
 
     .water-drop {
         position: fixed;
@@ -463,28 +469,37 @@
         width: 15px;
         height: 22px;
 
-        border-radius: 50% 50% 60% 60%;
+        border-radius:
+            50% 50% 60% 60%;
 
-        background: rgba(62,169,229,0.9);
+        background:
+            linear-gradient(
+                #84d8ff,
+                #3aa5e4
+            );
 
-        z-index: 15;
+        z-index: 60;
 
         opacity: 0;
 
         pointer-events: none;
+
+        box-shadow:
+            inset 2px 2px 3px rgba(255,255,255,0.45);
     }
 
     /* =========================
-       КНОПКА ДАЛЬШЕ
+       КНОПКА
        ========================= */
 
     #nextButton {
         position: absolute;
 
         right: 4%;
-        bottom: 5%;
+        bottom: 4%;
 
-        padding: 17px 35px;
+        padding:
+            17px 36px;
 
         border: none;
 
@@ -492,22 +507,21 @@
 
         background: white;
 
-        color: #39764b;
+        color: #3f7748;
 
         font-size: 24px;
-        font-weight: bold;
+        font-weight: 800;
 
         cursor: pointer;
 
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        box-shadow:
+            0 7px 15px rgba(0,0,0,0.15);
 
-        z-index: 30;
+        z-index: 80;
 
         display: none;
-    }
 
-    #nextButton:hover {
-        transform: scale(1.05);
+        touch-action: manipulation;
     }
 
     /* =========================
@@ -519,65 +533,111 @@
     }
 
     #plant.grow #leafLeft {
-        transform: rotate(-35deg) scale(1.25);
+        transform:
+            rotate(-36deg)
+            scale(1.18);
     }
 
     #plant.grow #leafRight {
-        transform: scaleX(-1) rotate(-35deg) scale(1.25);
+        transform:
+            scaleX(-1)
+            rotate(-36deg)
+            scale(1.18);
     }
 
     #plant.grow #flower {
-        transform: translateX(-50%) scale(1);
+        transform:
+            translateX(-50%)
+            scale(1);
     }
 
     #plant.wilt {
         transform:
             translateX(-50%)
             rotate(28deg)
-            translateY(18px);
+            translateY(20px);
     }
 
     #plant.wilt #stem {
-        background: #779456;
+        background: #7b9559;
+
         transform:
             translateX(-50%)
-            scaleY(0.82);
+            scaleY(0.84);
     }
 
     #plant.wilt #leafLeft {
         transform:
-            rotate(-80deg)
-            translateY(8px);
+            rotate(-85deg)
+            translateY(12px)
+            scale(0.9);
     }
 
     #plant.wilt #leafRight {
         transform:
             scaleX(-1)
-            rotate(-80deg)
-            translateY(8px);
+            rotate(-85deg)
+            translateY(12px)
+            scale(0.9);
     }
 
     /* =========================
-       МОБИЛЬНАЯ АДАПТАЦИЯ
+       АДАПТАЦИЯ
        ========================= */
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
+
+        #plantArea {
+            width: min(42vw, 420px);
+        }
+
         .watering-can {
-            transform: scale(0.75);
+            transform: scale(0.82);
         }
 
         #leftCan {
-            left: -2%;
+            left: -1%;
         }
 
         #rightCan {
-            right: -2%;
+            right: -1%;
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        #progress {
+            top: 12px;
         }
 
         #plantArea {
-            transform: translateX(-50%) scale(0.85);
+            width: min(48vw, 330px);
+            min-width: 250px;
+            bottom: 7%;
+        }
+
+        #targetLetter {
+            font-size: clamp(42px, 10vw, 66px);
+        }
+
+        .watering-can {
+            transform: scale(0.62);
+        }
+
+        #leftCan {
+            left: -8%;
+        }
+
+        #rightCan {
+            right: -8%;
+        }
+
+        #nextButton {
+            font-size: 18px;
+            padding: 13px 25px;
         }
     }
+
 </style>
 </head>
 
@@ -585,15 +645,9 @@
 
 <div id="game">
 
-    <div class="greenhouse">
-        <div class="glass-line"></div>
-        <div class="glass-line"></div>
-        <div class="glass-line"></div>
-        <div class="glass-line"></div>
-        <div class="ground"></div>
+    <div id="progress">
+        1 / 10
     </div>
-
-    <div id="progress">1 / 10</div>
 
     <!-- ЛЕВАЯ ЛЕЙКА -->
     <div class="watering-can" id="leftCan">
@@ -602,7 +656,12 @@
         <div class="can-spout"></div>
 
         <div class="can-body">
-            <div class="picture" id="leftPicture">Л</div>
+            <div
+                class="picture"
+                id="leftPicture"
+            >
+                Л
+            </div>
         </div>
 
     </div>
@@ -614,20 +673,33 @@
         <div class="can-spout"></div>
 
         <div class="can-body">
-            <div class="picture" id="rightPicture">Р</div>
+            <div
+                class="picture"
+                id="rightPicture"
+            >
+                Р
+            </div>
         </div>
 
     </div>
 
-    <!-- РАСТЕНИЕ -->
+    <!-- ЦЕНТР -->
     <div id="plantArea">
 
+        <!-- РОСТОК -->
         <div id="plant">
 
             <div id="stem"></div>
 
-            <div class="leaf" id="leafLeft"></div>
-            <div class="leaf" id="leafRight"></div>
+            <div
+                class="leaf"
+                id="leafLeft"
+            ></div>
+
+            <div
+                class="leaf"
+                id="leafRight"
+            ></div>
 
             <div id="flower">
 
@@ -642,8 +714,17 @@
 
         </div>
 
-        <div id="pot">
-            <div id="targetLetter">Р</div>
+        <!-- ГОРШОК -->
+        <img
+            id="potImage"
+            src="gorschok.PNG"
+            alt=""
+            draggable="false"
+        >
+
+        <!-- БУКВА -->
+        <div id="targetLetter">
+            Р
         </div>
 
     </div>
@@ -657,12 +738,9 @@
 
 <script>
 
-/* =====================================================
-   ДАННЫЕ РАУНДОВ
-
-   Потом вместо "Л" и "Р" здесь будут ссылки на
-   реальные картинки с GitHub.
-   ===================================================== */
+/* =========================================
+   РАУНДЫ
+   ========================================= */
 
 const rounds = [
 
@@ -799,12 +877,11 @@ const rounds = [
 ];
 
 
-/* =====================================================
-   ОСНОВНЫЕ ПЕРЕМЕННЫЕ
-   ===================================================== */
+/* =========================================
+   ПЕРЕМЕННЫЕ
+   ========================================= */
 
 let currentRound = 0;
-
 let animationLocked = false;
 
 const leftCan =
@@ -831,10 +908,13 @@ const plant =
 const nextButton =
     document.getElementById("nextButton");
 
+const potImage =
+    document.getElementById("potImage");
 
-/* =====================================================
+
+/* =========================================
    ЗАГРУЗКА РАУНДА
-   ===================================================== */
+   ========================================= */
 
 function loadRound() {
 
@@ -860,9 +940,9 @@ function loadRound() {
 }
 
 
-/* =====================================================
-   ОБРАБОТКА ВЫБОРА
-   ===================================================== */
+/* =========================================
+   ВЫБОР ЛЕЙКИ
+   ========================================= */
 
 async function chooseCan(side) {
 
@@ -877,8 +957,8 @@ async function chooseCan(side) {
 
     const can =
         side === "left"
-            ? leftCan
-            : rightCan;
+        ? leftCan
+        : rightCan;
 
     const isCorrect =
         side === round.correct;
@@ -895,6 +975,8 @@ async function chooseCan(side) {
         nextButton.style.display =
             "block";
 
+        animationLocked = false;
+
     } else {
 
         await wiltPlant();
@@ -908,73 +990,69 @@ async function chooseCan(side) {
 }
 
 
-/* =====================================================
+/* =========================================
    АНИМАЦИЯ ЛЕЙКИ
-   ===================================================== */
+   ========================================= */
 
 async function animateWatering(
     can,
     side
 ) {
 
-    const originalStyle = {
-        left: can.style.left,
-        right: can.style.right,
-        bottom: can.style.bottom,
-        transform: can.style.transform
-    };
+    const originalCssText =
+        can.style.cssText;
 
     /*
-       Лейка поднимается
-       и перемещается ближе к центру.
+       Поднимаем и двигаем к горшку
     */
 
-    can.style.bottom = "45%";
+    can.style.bottom =
+        "43%";
 
     if (side === "left") {
 
-        can.style.left = "28%";
+        can.style.left =
+            "29%";
 
         can.style.transform =
-            "rotate(-28deg)";
+            "rotate(-30deg)";
 
     } else {
 
-        can.style.right = "28%";
+        can.style.right =
+            "29%";
 
         can.style.transform =
-            "rotate(28deg)";
+            "rotate(30deg)";
     }
 
     await wait(800);
 
-    createWater(can, side);
-
-    await wait(1300);
-
     /*
-       Возвращаем лейку.
+       Полив
     */
 
-    can.style.bottom =
-        originalStyle.bottom;
+    createWater(
+        can,
+        side
+    );
 
-    can.style.left =
-        originalStyle.left;
+    await wait(1250);
 
-    can.style.right =
-        originalStyle.right;
+    /*
+       Возвращаем назад
+    */
 
-    can.style.transform =
-        originalStyle.transform;
+    can.style.cssText =
+        originalCssText;
 
-    await wait(650);
+    await wait(700);
 }
 
 
-/* =====================================================
+/* =========================================
    ВОДА
-   ===================================================== */
+   ========================================= */
 
 function createWater(
     can,
@@ -985,33 +1063,41 @@ function createWater(
         can.getBoundingClientRect();
 
     const potRect =
-        document
-        .getElementById("pot")
-        .getBoundingClientRect();
+        potImage.getBoundingClientRect();
 
-    const startX =
-        side === "left"
-            ? canRect.right - 15
-            : canRect.left + 15;
+    let startX;
+
+    if (side === "left") {
+
+        startX =
+            canRect.right - 12;
+
+    } else {
+
+        startX =
+            canRect.left + 12;
+    }
 
     const startY =
         canRect.top +
-        canRect.height * 0.55;
+        canRect.height * 0.58;
 
     const endX =
         potRect.left +
         potRect.width / 2;
 
-    const endY =
-        potRect.top + 10;
-
     /*
-       Создаём несколько капель.
+       Целимся примерно в землю,
+       а не в нижнюю часть горшка.
     */
+
+    const endY =
+        potRect.top +
+        potRect.height * 0.18;
 
     for (
         let i = 0;
-        i < 10;
+        i < 12;
         i++
     ) {
 
@@ -1024,7 +1110,7 @@ function createWater(
                 endY
             );
 
-        }, i * 90);
+        }, i * 80);
     }
 }
 
@@ -1058,7 +1144,11 @@ function createDrop(
     requestAnimationFrame(() => {
 
         drop.style.transition =
-            "all 0.7s linear";
+            `
+            left 0.7s linear,
+            top 0.7s cubic-bezier(.4,0,.7,1),
+            opacity 0.7s linear
+            `;
 
         drop.style.left =
             `${endX}px`;
@@ -1067,20 +1157,20 @@ function createDrop(
             `${endY}px`;
 
         drop.style.opacity =
-            "0.4";
+            "0.35";
     });
 
     setTimeout(() => {
 
         drop.remove();
 
-    }, 750);
+    }, 760);
 }
 
 
-/* =====================================================
+/* =========================================
    ПРАВИЛЬНЫЙ ОТВЕТ
-   ===================================================== */
+   ========================================= */
 
 async function growPlant() {
 
@@ -1092,15 +1182,13 @@ async function growPlant() {
         "grow"
     );
 
-    await wait(1700);
-
-    animationLocked = false;
+    await wait(1800);
 }
 
 
-/* =====================================================
+/* =========================================
    НЕПРАВИЛЬНЫЙ ОТВЕТ
-   ===================================================== */
+   ========================================= */
 
 async function wiltPlant() {
 
@@ -1112,13 +1200,13 @@ async function wiltPlant() {
         "wilt"
     );
 
-    await wait(1200);
+    await wait(1250);
 }
 
 
-/* =====================================================
-   СБРОС РАСТЕНИЯ
-   ===================================================== */
+/* =========================================
+   СБРОС
+   ========================================= */
 
 function resetPlant() {
 
@@ -1129,9 +1217,9 @@ function resetPlant() {
 }
 
 
-/* =====================================================
-   СЛЕДУЮЩИЙ РАУНД
-   ===================================================== */
+/* =========================================
+   ДАЛЬШЕ
+   ========================================= */
 
 nextButton.addEventListener(
     "click",
@@ -1157,34 +1245,35 @@ nextButton.addEventListener(
 );
 
 
-/* =====================================================
+/* =========================================
    ФИНАЛ
-
-   Пока простой.
-   Позже сделаем настоящую оранжерею
-   со всеми 10 цветами.
-   ===================================================== */
+   ========================================= */
 
 function finishGame() {
 
-    document.getElementById(
-        "game"
-    ).innerHTML = `
+    const game =
+        document.getElementById("game");
+
+    game.innerHTML = `
 
         <div
             style="
-                width:100%;
-                height:100%;
+                position:absolute;
+                inset:0;
+
                 display:flex;
                 flex-direction:column;
+
                 align-items:center;
                 justify-content:center;
+
                 text-align:center;
+
                 background:
-                linear-gradient(
-                    #c9edf4,
-                    #9fd384
-                );
+                    rgba(255,255,255,0.22);
+
+                backdrop-filter:
+                    blur(2px);
             "
         >
 
@@ -1192,10 +1281,13 @@ function finishGame() {
                 style="
                     font-size:
                     clamp(
-                        40px,
+                        42px,
                         6vw,
-                        80px
+                        85px
                     );
+
+                    margin-bottom:
+                        10px;
                 "
             >
                 🌷 🌻 🌸 🌼 🌹
@@ -1203,13 +1295,21 @@ function finishGame() {
 
             <h1
                 style="
-                    color:#356443;
+                    margin:
+                    0 20px 25px;
+
+                    color:
+                    #426d46;
+
                     font-size:
                     clamp(
                         32px,
                         5vw,
                         65px
                     );
+
+                    text-shadow:
+                    0 2px 2px white;
                 "
             >
                 Все цветы выросли!
@@ -1219,26 +1319,32 @@ function finishGame() {
                 onclick="
                     location.reload()
                 "
+
                 style="
                     padding:
-                    18px 35px;
+                    18px 38px;
 
                     border:none;
 
                     border-radius:
-                    30px;
+                    32px;
 
                     background:white;
 
-                    color:#39764b;
+                    color:
+                    #39764b;
 
                     font-size:
                     24px;
 
                     font-weight:
-                    bold;
+                    800;
 
                     cursor:pointer;
+
+                    box-shadow:
+                    0 7px 16px
+                    rgba(0,0,0,0.16);
                 "
             >
                 Играть ещё раз
@@ -1249,9 +1355,9 @@ function finishGame() {
 }
 
 
-/* =====================================================
-   ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ
-   ===================================================== */
+/* =========================================
+   WAIT
+   ========================================= */
 
 function wait(ms) {
 
@@ -1265,9 +1371,9 @@ function wait(ms) {
 }
 
 
-/* =====================================================
+/* =========================================
    КЛИКИ
-   ===================================================== */
+   ========================================= */
 
 leftCan.addEventListener(
     "click",
@@ -1280,9 +1386,9 @@ rightCan.addEventListener(
 );
 
 
-/* =====================================================
+/* =========================================
    ЗАПУСК
-   ===================================================== */
+   ========================================= */
 
 loadRound();
 
