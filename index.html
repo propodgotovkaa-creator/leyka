@@ -52,7 +52,6 @@
         z-index: 50;
 
         padding: 10px 24px;
-
         border-radius: 30px;
 
         background: rgba(255,255,255,0.9);
@@ -70,24 +69,24 @@
        ========================= */
 
     #plantArea {
-    position: absolute;
+        position: absolute;
 
-    left: 50%;
-    bottom: 7%;
+        left: 50%;
+        bottom: 7%;
 
-    transform: translateX(-50%);
+        transform: translateX(-50%);
 
-    width: min(25vw, 350px);
-    height: min(44vw, 500px);
+        width: min(25vw, 350px);
+        height: min(44vw, 500px);
 
-    min-width: 240px;
-    min-height: 360px;
+        min-width: 240px;
+        min-height: 360px;
 
-    z-index: 10;
-}
+        z-index: 10;
+    }
 
     /* =========================
-       ГОРШОК-КАРТИНКА
+       ГОРШОК
        ========================= */
 
     #potImage {
@@ -113,30 +112,30 @@
     }
 
     /* =========================
-       БУКВА НА ТАБЛИЧКЕ
+       БУКВА
        ========================= */
 
-   #targetLetter {
-    position: absolute;
+    #targetLetter {
+        position: absolute;
 
-    left: 50%;
-    bottom: 15.5%;
+        left: 50%;
+        bottom: 15.5%;
 
-    transform: translate(-50%, 50%);
+        transform: translate(-50%, 50%);
 
-    z-index: 30;
+        z-index: 30;
 
-    font-size: clamp(42px, 4.5vw, 66px);
-    font-weight: 900;
+        font-size: clamp(42px, 4.5vw, 66px);
+        font-weight: 900;
 
-    color: #a4422e;
+        color: #a4422e;
 
-    line-height: 1;
+        line-height: 1;
+        text-align: center;
 
-    text-align: center;
+        pointer-events: none;
+    }
 
-    pointer-events: none;
-}
     /* =========================
        РАСТЕНИЕ
        ========================= */
@@ -316,144 +315,51 @@
     }
 
     /* =========================
-       ЛЕЙКИ
-       ВРЕМЕННЫЕ
+       НАСТОЯЩИЕ ЛЕЙКИ
        ========================= */
 
     .watering-can {
         position: absolute;
 
-        bottom: 13%;
+        bottom: 12%;
 
-        width: 230px;
-        height: 195px;
+        width: min(24vw, 330px);
+        height: auto;
 
         cursor: pointer;
 
         z-index: 35;
 
-        transform-origin: center;
+        transform-origin: center center;
 
         transition:
             left 0.8s ease,
             right 0.8s ease,
             bottom 0.8s ease,
-            transform 0.65s ease;
+            transform 0.65s ease,
+            opacity 0.3s ease;
 
         touch-action: manipulation;
     }
 
     #leftCan {
-        left: 5%;
+        left: 4%;
     }
 
     #rightCan {
-        right: 5%;
+        right: 4%;
     }
 
-    .can-body {
-        position: absolute;
+    .watering-can img {
+        display: block;
+        width: 100%;
+        height: auto;
 
-        width: 132px;
-        height: 100px;
+        pointer-events: none;
 
-        left: 48px;
-        bottom: 10px;
-
-        background:
-            linear-gradient(
-                145deg,
-                #78c1e7,
-                #4b97c8
-            );
-
-        border-radius: 25px 25px 32px 32px;
-
-        border:
-            4px solid
-            rgba(255,255,255,0.24);
-
-        box-shadow:
-            0 8px 10px rgba(0,0,0,0.12),
-            inset 3px 3px 6px rgba(255,255,255,0.25);
-    }
-
-    .can-handle {
-        position: absolute;
-
-        width: 103px;
-        height: 100px;
-
-        left: 62px;
-        bottom: 73px;
-
-        border:
-            18px solid
-            #62acd6;
-
-        border-bottom: 0;
-
-        border-radius:
-            60px 60px 0 0;
-    }
-
-    .can-spout {
-        position: absolute;
-
-        width: 96px;
-        height: 32px;
-
-        left: 160px;
-        bottom: 48px;
-
-        background: #5ba6d2;
-
-        transform:
-            rotate(-20deg);
-
-        transform-origin:
-            left center;
-
-        border-radius:
-            10px 35px 35px 10px;
-    }
-
-    #rightCan .can-spout {
-        left: -25px;
-
-        transform:
-            rotate(20deg);
-    }
-
-    .picture {
-        position: absolute;
-
-        left: 50%;
-        top: 50%;
-
-        transform:
-            translate(-50%, -45%);
-
-        width: 72px;
-        height: 72px;
-
-        border-radius: 18px;
-
-        background: white;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 42px;
-        font-weight: 800;
-
-        color: #526171;
-
-        box-shadow:
-            0 4px 9px rgba(0,0,0,0.12);
-
-        z-index: 10;
+        filter: drop-shadow(
+            0 8px 7px rgba(0,0,0,0.14)
+        );
     }
 
     /* =========================
@@ -495,8 +401,7 @@
         right: 4%;
         bottom: 4%;
 
-        padding:
-            17px 36px;
+        padding: 17px 36px;
 
         border: none;
 
@@ -584,54 +489,16 @@
 
     @media (max-width: 900px) {
 
-        #plantArea {
-            width: min(42vw, 420px);
-        }
-
         .watering-can {
-            transform: scale(0.82);
+            width: min(27vw, 280px);
         }
 
         #leftCan {
-            left: -1%;
+            left: 1%;
         }
 
         #rightCan {
-            right: -1%;
-        }
-    }
-
-    @media (max-width: 650px) {
-
-        #progress {
-            top: 12px;
-        }
-
-        #plantArea {
-            width: min(48vw, 330px);
-            min-width: 250px;
-            bottom: 7%;
-        }
-
-        #targetLetter {
-            font-size: clamp(42px, 10vw, 66px);
-        }
-
-        .watering-can {
-            transform: scale(0.62);
-        }
-
-        #leftCan {
-            left: -8%;
-        }
-
-        #rightCan {
-            right: -8%;
-        }
-
-        #nextButton {
-            font-size: 18px;
-            padding: 13px 25px;
+            right: 1%;
         }
     }
 
@@ -643,47 +510,38 @@
 <div id="game">
 
     <div id="progress">
-        1 / 10
+        1 / 2
     </div>
 
     <!-- ЛЕВАЯ ЛЕЙКА -->
-    <div class="watering-can" id="leftCan">
-
-        <div class="can-handle"></div>
-        <div class="can-spout"></div>
-
-        <div class="can-body">
-            <div
-                class="picture"
-                id="leftPicture"
-            >
-                Л
-            </div>
-        </div>
-
+    <div
+        class="watering-can"
+        id="leftCan"
+    >
+        <img
+            id="leftCanImage"
+            src=""
+            alt=""
+            draggable="false"
+        >
     </div>
 
     <!-- ПРАВАЯ ЛЕЙКА -->
-    <div class="watering-can" id="rightCan">
-
-        <div class="can-handle"></div>
-        <div class="can-spout"></div>
-
-        <div class="can-body">
-            <div
-                class="picture"
-                id="rightPicture"
-            >
-                Р
-            </div>
-        </div>
-
+    <div
+        class="watering-can"
+        id="rightCan"
+    >
+        <img
+            id="rightCanImage"
+            src=""
+            alt=""
+            draggable="false"
+        >
     </div>
 
     <!-- ЦЕНТР -->
     <div id="plantArea">
 
-        <!-- РОСТОК -->
         <div id="plant">
 
             <div id="stem"></div>
@@ -711,7 +569,6 @@
 
         </div>
 
-        <!-- ГОРШОК -->
         <img
             id="potImage"
             src="gorschok.PNG"
@@ -719,9 +576,8 @@
             draggable="false"
         >
 
-        <!-- БУКВА -->
         <div id="targetLetter">
-            Р
+            Л
         </div>
 
     </div>
@@ -732,142 +588,35 @@
 
 </div>
 
-
 <script>
 
 /* =========================================
-   РАУНДЫ
+   ДАННЫЕ ДВУХ ТЕСТОВЫХ РАУНДОВ
    ========================================= */
 
 const rounds = [
 
     {
-        letter: "Р",
-        left: {
-            label: "Л",
-            sound: "Л"
-        },
-        right: {
-            label: "Р",
-            sound: "Р"
-        },
-        correct: "right"
-    },
-
-    {
         letter: "Л",
-        left: {
-            label: "Л",
-            sound: "Л"
-        },
-        right: {
-            label: "Р",
-            sound: "Р"
-        },
+
+        leftImage:
+            "images/round1_left.PNG",
+
+        rightImage:
+            "images/round1_right.PNG",
+
         correct: "left"
     },
 
     {
         letter: "Р",
-        left: {
-            label: "Р",
-            sound: "Р"
-        },
-        right: {
-            label: "Л",
-            sound: "Л"
-        },
-        correct: "left"
-    },
 
-    {
-        letter: "Л",
-        left: {
-            label: "Р",
-            sound: "Р"
-        },
-        right: {
-            label: "Л",
-            sound: "Л"
-        },
-        correct: "right"
-    },
+        leftImage:
+            "images/round2_left.PNG",
 
-    {
-        letter: "Р",
-        left: {
-            label: "Л",
-            sound: "Л"
-        },
-        right: {
-            label: "Р",
-            sound: "Р"
-        },
-        correct: "right"
-    },
+        rightImage:
+            "images/round2_right.PNG",
 
-    {
-        letter: "Л",
-        left: {
-            label: "Л",
-            sound: "Л"
-        },
-        right: {
-            label: "Р",
-            sound: "Р"
-        },
-        correct: "left"
-    },
-
-    {
-        letter: "Р",
-        left: {
-            label: "Р",
-            sound: "Р"
-        },
-        right: {
-            label: "Л",
-            sound: "Л"
-        },
-        correct: "left"
-    },
-
-    {
-        letter: "Л",
-        left: {
-            label: "Р",
-            sound: "Р"
-        },
-        right: {
-            label: "Л",
-            sound: "Л"
-        },
-        correct: "right"
-    },
-
-    {
-        letter: "Р",
-        left: {
-            label: "Л",
-            sound: "Л"
-        },
-        right: {
-            label: "Р",
-            sound: "Р"
-        },
-        correct: "right"
-    },
-
-    {
-        letter: "Л",
-        left: {
-            label: "Л",
-            sound: "Л"
-        },
-        right: {
-            label: "Р",
-            sound: "Р"
-        },
         correct: "left"
     }
 
@@ -887,11 +636,11 @@ const leftCan =
 const rightCan =
     document.getElementById("rightCan");
 
-const leftPicture =
-    document.getElementById("leftPicture");
+const leftCanImage =
+    document.getElementById("leftCanImage");
 
-const rightPicture =
-    document.getElementById("rightPicture");
+const rightCanImage =
+    document.getElementById("rightCanImage");
 
 const targetLetter =
     document.getElementById("targetLetter");
@@ -910,6 +659,30 @@ const potImage =
 
 
 /* =========================================
+   ПРЕДЗАГРУЗКА ВСЕХ ЛЕЕК
+   ========================================= */
+
+function preloadImages() {
+
+    rounds.forEach(round => {
+
+        const leftImg =
+            new Image();
+
+        leftImg.src =
+            round.leftImage;
+
+
+        const rightImg =
+            new Image();
+
+        rightImg.src =
+            round.rightImage;
+    });
+}
+
+
+/* =========================================
    ЗАГРУЗКА РАУНДА
    ========================================= */
 
@@ -924,13 +697,15 @@ function loadRound() {
     targetLetter.textContent =
         round.letter;
 
-    leftPicture.textContent =
-        round.left.label;
+    leftCanImage.src =
+        round.leftImage;
 
-    rightPicture.textContent =
-        round.right.label;
+    rightCanImage.src =
+        round.rightImage;
 
     resetPlant();
+
+    resetCans();
 
     nextButton.style.display =
         "none";
@@ -938,7 +713,40 @@ function loadRound() {
 
 
 /* =========================================
-   ВЫБОР ЛЕЙКИ
+   СБРОС ЛЕЕК
+   ========================================= */
+
+function resetCans() {
+
+    leftCan.style.left =
+        "4%";
+
+    leftCan.style.right =
+        "auto";
+
+    leftCan.style.bottom =
+        "12%";
+
+    leftCan.style.transform =
+        "none";
+
+
+    rightCan.style.right =
+        "4%";
+
+    rightCan.style.left =
+        "auto";
+
+    rightCan.style.bottom =
+        "12%";
+
+    rightCan.style.transform =
+        "none";
+}
+
+
+/* =========================================
+   ВЫБОР
    ========================================= */
 
 async function chooseCan(side) {
@@ -996,52 +804,65 @@ async function animateWatering(
     side
 ) {
 
-    const originalCssText =
-        can.style.cssText;
-
     /*
-       Поднимаем и двигаем к горшку
+       Двигаем лейку к центру.
     */
 
     can.style.bottom =
-        "43%";
+        "40%";
 
     if (side === "left") {
 
         can.style.left =
-            "29%";
+            "27%";
 
         can.style.transform =
-            "rotate(-30deg)";
+            "rotate(-28deg)";
 
     } else {
 
         can.style.right =
-            "29%";
+            "27%";
 
         can.style.transform =
-            "rotate(30deg)";
+            "rotate(28deg)";
     }
 
-    await wait(800);
-
-    /*
-       Полив
-    */
+    await wait(850);
 
     createWater(
         can,
         side
     );
 
-    await wait(1250);
+    await wait(1350);
 
     /*
-       Возвращаем назад
+       Возвращаем лейку.
     */
 
-    can.style.cssText =
-        originalCssText;
+    if (side === "left") {
+
+        can.style.left =
+            "4%";
+
+        can.style.bottom =
+            "12%";
+
+        can.style.transform =
+            "none";
+
+    } else {
+
+        can.style.right =
+            "4%";
+
+        can.style.bottom =
+            "12%";
+
+        can.style.transform =
+            "none";
+    }
 
     await wait(700);
 }
@@ -1064,37 +885,42 @@ function createWater(
 
     let startX;
 
+    /*
+       Пока ориентируемся примерно
+       на край изображения лейки.
+
+       После теста по скриншоту
+       подправим точную точку носика.
+    */
+
     if (side === "left") {
 
         startX =
-            canRect.right - 12;
+            canRect.right -
+            canRect.width * 0.12;
 
     } else {
 
         startX =
-            canRect.left + 12;
+            canRect.left +
+            canRect.width * 0.12;
     }
 
     const startY =
         canRect.top +
-        canRect.height * 0.58;
+        canRect.height * 0.45;
 
     const endX =
         potRect.left +
         potRect.width / 2;
 
-    /*
-       Целимся примерно в землю,
-       а не в нижнюю часть горшка.
-    */
-
     const endY =
         potRect.top +
-        potRect.height * 0.18;
+        potRect.height * 0.14;
 
     for (
         let i = 0;
-        i < 12;
+        i < 14;
         i++
     ) {
 
@@ -1107,7 +933,7 @@ function createWater(
                 endY
             );
 
-        }, i * 80);
+        }, i * 75);
     }
 }
 
@@ -1154,7 +980,7 @@ function createDrop(
             `${endY}px`;
 
         drop.style.opacity =
-            "0.35";
+            "0.25";
     });
 
     setTimeout(() => {
@@ -1202,7 +1028,7 @@ async function wiltPlant() {
 
 
 /* =========================================
-   СБРОС
+   СБРОС РАСТЕНИЯ
    ========================================= */
 
 function resetPlant() {
@@ -1215,7 +1041,7 @@ function resetPlant() {
 
 
 /* =========================================
-   ДАЛЬШЕ
+   СЛЕДУЮЩИЙ РАУНД
    ========================================= */
 
 nextButton.addEventListener(
@@ -1243,7 +1069,7 @@ nextButton.addEventListener(
 
 
 /* =========================================
-   ФИНАЛ
+   ФИНАЛ ДВУХРАУНДОВОГО ТЕСТА
    ========================================= */
 
 function finishGame() {
@@ -1267,40 +1093,17 @@ function finishGame() {
                 text-align:center;
 
                 background:
-                    rgba(255,255,255,0.22);
-
-                backdrop-filter:
-                    blur(2px);
+                    rgba(255,255,255,0.20);
             "
         >
 
-            <div
-                style="
-                    font-size:
-                    clamp(
-                        42px,
-                        6vw,
-                        85px
-                    );
-
-                    margin-bottom:
-                        10px;
-                "
-            >
-                🌷 🌻 🌸 🌼 🌹
-            </div>
-
             <h1
                 style="
-                    margin:
-                    0 20px 25px;
-
-                    color:
-                    #426d46;
+                    color:#426d46;
 
                     font-size:
                     clamp(
-                        32px,
+                        34px,
                         5vw,
                         65px
                     );
@@ -1309,7 +1112,7 @@ function finishGame() {
                     0 2px 2px white;
                 "
             >
-                Все цветы выросли!
+                Тест пройден!
             </h1>
 
             <button
@@ -1328,8 +1131,7 @@ function finishGame() {
 
                     background:white;
 
-                    color:
-                    #39764b;
+                    color:#39764b;
 
                     font-size:
                     24px;
@@ -1387,6 +1189,7 @@ rightCan.addEventListener(
    ЗАПУСК
    ========================================= */
 
+preloadImages();
 loadRound();
 
 </script>
