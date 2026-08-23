@@ -94,23 +94,19 @@ body {
     left: 50%;
 
     /*
-       Точка выхода растения из земли.
-       Если понадобится потом опустить
-       буквально на несколько пикселей,
-       меняем только эту цифру.
+       Опускаем растение внутрь горшка.
+       Теперь нижняя часть PNG должна
+       заходить в область земли.
     */
-    bottom: 25%;
+    bottom: 17%;
 
-    width: 190px;
-    height: 250px;
+    width: 170px;
+    height: 230px;
 
     transform: translateX(-50%);
 
     transform-origin: center bottom;
 
-    /*
-       Растение за передней частью горшка.
-    */
     z-index: 25;
 
     pointer-events: none;
@@ -148,14 +144,8 @@ body {
    ========================= */
 
 #sproutImage {
-    width: 105px;
-    height: 150px;
-
-    /*
-       У PNG есть своя кучка земли.
-       Мы прячем её нижнюю часть.
-    */
-    clip-path: inset(0 0 18% 0);
+    width: 95px;
+    height: 135px;
 
     transform:
         translateX(-50%)
@@ -171,7 +161,7 @@ body {
     width: 155px;
     height: 225px;
 
-    clip-path: inset(0 0 12% 0);
+    
 
     transform:
         translateX(-50%)
@@ -187,7 +177,7 @@ body {
     width: 175px;
     height: 245px;
 
-    clip-path: inset(0 0 11% 0);
+   
 
     transform:
         translateX(-50%)
