@@ -51,6 +51,98 @@ body {
 
 
 /* =========================
+   ПРАВИЛА ИГРЫ
+   ========================= */
+
+#rulesScreen {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9998;
+
+    background:
+        rgba(53, 88, 58, 0.42);
+
+    padding: 24px;
+}
+
+#rulesCard {
+    width: min(560px, 90vw);
+
+    padding: 38px 42px;
+
+    background:
+        rgba(255,255,255,0.97);
+
+    border-radius: 32px;
+
+    text-align: center;
+
+    box-shadow:
+        0 14px 40px
+        rgba(0,0,0,0.20);
+}
+
+#rulesCard h1 {
+    margin:
+        0 0 24px;
+
+    color: #4d704c;
+
+    font-size:
+        clamp(30px, 4vw, 46px);
+}
+
+#rulesCard p {
+    margin:
+        0 0 26px;
+
+    color: #4f5b4f;
+
+    font-size:
+        clamp(18px, 2.2vw, 24px);
+
+    line-height: 1.55;
+}
+
+#startButton {
+    padding:
+        16px 38px;
+
+    border: none;
+
+    border-radius: 30px;
+
+    background:
+        #4d704c;
+
+    color: white;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 14px
+        rgba(0,0,0,0.15);
+
+    transition:
+        transform 0.2s ease;
+}
+
+#startButton:hover {
+    transform:
+        scale(1.03);
+}
+
+
+/* =========================
    VIEWPORT
    ========================= */
 
@@ -407,6 +499,41 @@ body {
 </div>
 
 
+<div id="rulesScreen">
+
+    <div id="rulesCard">
+
+        <h1>
+            Правила игры
+        </h1>
+
+        <p>
+            Посмотри на букву на горшке.
+            <br><br>
+
+            Выбери лейку с картинкой,
+            в названии которой есть нужный звук.
+            <br><br>
+
+            Если ответ правильный —
+            цветок вырастет.
+            <br><br>
+
+            Если ошибёшься —
+            росток завянет.
+            Выбери правильную лейку
+            и спаси его!
+        </p>
+
+        <button id="startButton">
+            Начать игру
+        </button>
+
+    </div>
+
+</div>
+
+
 <div id="viewport">
 
 <div id="game">
@@ -556,6 +683,12 @@ const viewport =
 
 const loadingScreen =
     document.getElementById("loadingScreen");
+
+const rulesScreen =
+    document.getElementById("rulesScreen");
+
+const startButton =
+    document.getElementById("startButton");
 
 const leftCan =
     document.getElementById("leftCan");
@@ -1874,6 +2007,21 @@ rightCan.addEventListener(
 
 
 /* =========================
+   КНОПКА "НАЧАТЬ ИГРУ"
+   ========================= */
+
+startButton.addEventListener(
+    "click",
+    () => {
+
+        rulesScreen.style.display =
+            "none";
+
+    }
+);
+
+
+/* =========================
    ЗАПУСК ИГРЫ
    ========================= */
 
@@ -1890,6 +2038,9 @@ async function startGame() {
 
     viewport.style.visibility =
         "visible";
+
+    rulesScreen.style.display =
+        "flex";
 }
 
 
