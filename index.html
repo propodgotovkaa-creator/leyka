@@ -153,6 +153,16 @@ body {
 
 
 /* =========================
+   УВЯДШИЙ РОСТОК
+   ========================= */
+
+#wiltImage {
+    width: 115px;
+    height: 165px;
+}
+
+
+/* =========================
    БУТОН
    ========================= */
 
@@ -169,50 +179,6 @@ body {
 #flowerImage {
     width: 175px;
     height: 245px;
-}
-
-
-/* =========================
-   УВЯДАНИЕ
-   ========================= */
-
-#sproutImage.wilt {
-    animation:
-        wiltSprout
-        0.9s
-        ease
-        forwards;
-
-    filter:
-        saturate(0.6)
-        brightness(0.82);
-}
-
-@keyframes wiltSprout {
-
-    0% {
-        transform:
-            translateX(-50%)
-            rotate(0deg)
-            translateY(0)
-            scale(1);
-    }
-
-    45% {
-        transform:
-            translateX(-50%)
-            rotate(13deg)
-            translateY(4px)
-            scale(0.98);
-    }
-
-    100% {
-        transform:
-            translateX(-50%)
-            rotate(30deg)
-            translateY(15px)
-            scale(0.93);
-    }
 }
 
 
@@ -373,8 +339,7 @@ body {
     cursor: pointer;
 
     box-shadow:
-        0 7px 15px
-        rgba(0,0,0,0.15);
+        0 7px 15px rgba(0,0,0,0.15);
 
     z-index: 110;
 
@@ -464,6 +429,17 @@ body {
                 id="sproutImage"
                 class="plant-stage"
                 src="images/plants/sprout.PNG"
+                alt=""
+                draggable="false"
+            >
+
+
+            <!-- УВЯДШИЙ РОСТОК -->
+
+            <img
+                id="wiltImage"
+                class="plant-stage"
+                src="images/plants/wilt.PNG"
                 alt=""
                 draggable="false"
             >
@@ -619,6 +595,9 @@ const rightCanImage =
 const sproutImage =
     document.getElementById("sproutImage");
 
+const wiltImage =
+    document.getElementById("wiltImage");
+
 const budImage =
     document.getElementById("budImage");
 
@@ -662,6 +641,7 @@ function preloadImages() {
         "images/round5_right.PNG",
 
         "images/plants/sprout.PNG",
+        "images/plants/wilt.PNG",
 
         "images/plants/flower1.PNG",
         "images/plants/flower1_bud.PNG",
@@ -683,11 +663,9 @@ function preloadImages() {
 
     files.forEach(src => {
 
-        const img =
-            new Image();
+        const img = new Image();
 
-        img.src =
-            src;
+        img.src = src;
 
     });
 
@@ -702,20 +680,13 @@ function resetPlant() {
 
     const stages = [
         sproutImage,
+        wiltImage,
         budImage,
         flowerImage
     ];
 
 
     stages.forEach(img => {
-
-        img.classList.remove("wilt");
-
-        img.style.animation =
-            "none";
-
-        img.style.filter =
-            "none";
 
         img.style.display =
             "block";
@@ -729,6 +700,9 @@ function resetPlant() {
         img.style.visibility =
             "hidden";
 
+        img.style.filter =
+            "none";
+
         img.style.transform =
             `
             translateX(-50%)
@@ -739,8 +713,8 @@ function resetPlant() {
 
 
     /*
-       В начале каждого раунда
-       обязательно виден росток.
+       Каждый новый раунд
+       начинается с обычного ростка.
     */
 
     sproutImage.style.visibility =
@@ -1224,15 +1198,21 @@ function createDrop(
 
 async function growPlant() {
 
-    sproutImage.classList.remove(
-        "wilt"
-    );
+    /*
+       На случай, если до этого
+       ребёнок ошибся:
+       убираем увядший росток.
+    */
 
-    sproutImage.style.animation =
-        "none";
+    wiltImage.style.opacity =
+        "0";
 
-    sproutImage.style.filter =
-        "none";
+    wiltImage.style.visibility =
+        "hidden";
+
+
+    sproutImage.style.display =
+        "block";
 
     sproutImage.style.visibility =
         "visible";
@@ -1240,9 +1220,13 @@ async function growPlant() {
     sproutImage.style.opacity =
         "1";
 
+    sproutImage.style.filter =
+        "none";
+
 
     sproutImage.style.transition =
         "transform 0.34s ease-in-out";
+
 
     sproutImage.style.transform =
         `
@@ -1255,6 +1239,10 @@ async function growPlant() {
     await wait(300);
 
 
+    /*
+       РОСТОК → БУТОН
+    */
+
     await morphPlant(
         sproutImage,
         budImage
@@ -1264,6 +1252,10 @@ async function growPlant() {
     await wait(260);
 
 
+    /*
+       БУТОН → ЦВЕТОК
+    */
+
     await morphPlant(
         budImage,
         flowerImage
@@ -1272,6 +1264,7 @@ async function growPlant() {
 
     flowerImage.style.transition =
         "transform 0.22s ease-out";
+
 
     flowerImage.style.transform =
         `
@@ -1303,6 +1296,10 @@ async function growPlant() {
 
 async function wiltPlant() {
 
+    /*
+       Бутон и цветок точно скрыты.
+    */
+
     budImage.style.opacity =
         "0";
 
@@ -1317,6 +1314,11 @@ async function wiltPlant() {
         "hidden";
 
 
+    /*
+       Обычный росток показываем
+       как исходную стадию.
+    */
+
     sproutImage.style.display =
         "block";
 
@@ -1326,40 +1328,109 @@ async function wiltPlant() {
     sproutImage.style.opacity =
         "1";
 
-
-    sproutImage.classList.remove(
-        "wilt"
-    );
-
-    sproutImage.style.animation =
-        "none";
-
     sproutImage.style.filter =
         "none";
-
 
     sproutImage.style.transform =
         `
         translateX(-50%)
-        rotate(0deg)
         translateY(0)
         scale(1)
         `;
 
 
-    void sproutImage.offsetWidth;
+    /*
+       Увядший росток готовим
+       поверх обычного.
+    */
+
+    wiltImage.style.display =
+        "block";
+
+    wiltImage.style.visibility =
+        "visible";
+
+    wiltImage.style.transition =
+        "none";
+
+    wiltImage.style.opacity =
+        "0";
+
+    wiltImage.style.transform =
+        `
+        translateX(-50%)
+        translateY(5px)
+        scale(0.94)
+        `;
 
 
-    sproutImage.style.animation =
-        "";
+    await nextFrame();
+    await nextFrame();
 
 
-    sproutImage.classList.add(
-        "wilt"
-    );
+    /*
+       МЯГКОЕ УВЯДАНИЕ:
+       обычный росток растворяется,
+       увядший одновременно появляется.
+    */
+
+    sproutImage.style.transition =
+        `
+        opacity 0.50s ease-in-out,
+        transform 0.55s ease-in-out,
+        filter 0.50s ease-in-out
+        `;
 
 
-    await wait(1000);
+    wiltImage.style.transition =
+        `
+        opacity 0.55s ease-in-out,
+        transform 0.60s ease-in-out
+        `;
+
+
+    sproutImage.style.opacity =
+        "0";
+
+    sproutImage.style.filter =
+        "saturate(0.75) brightness(0.9)";
+
+    sproutImage.style.transform =
+        `
+        translateX(-50%)
+        translateY(2px)
+        scale(0.97)
+        `;
+
+
+    wiltImage.style.opacity =
+        "1";
+
+    wiltImage.style.transform =
+        `
+        translateX(-50%)
+        translateY(0)
+        scale(1)
+        `;
+
+
+    await wait(600);
+
+
+    /*
+       После перехода обычный росток
+       полностью скрываем.
+    */
+
+    sproutImage.style.visibility =
+        "hidden";
+
+
+    /*
+       Увядший росток остаётся
+       на экране до следующей попытки
+       или до правильного ответа.
+    */
 
 }
 
