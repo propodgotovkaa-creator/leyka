@@ -128,9 +128,9 @@ body {
     opacity: 0;
     visibility: hidden;
 
-    transition:
-        opacity 0.48s ease,
-        transform 0.62s ease;
+  transition:
+    opacity 0.22s ease,
+    transform 0.32s ease;
 
     transform:
         translateX(-50%)
@@ -730,9 +730,7 @@ function preloadImages() {
    ПЛАВНАЯ СМЕНА СТАДИИ
    ===================================== */
 
-async function changePlantStage(
-    nextStage
-) {
+async function changePlantStage(nextStage) {
 
     const stages = {
         sprout: sproutImage,
@@ -740,94 +738,70 @@ async function changePlantStage(
         flower: flowerImage
     };
 
+    const nextImage = stages[nextStage];
 
-    const nextImage =
-        stages[nextStage];
-
-
-    /*
-       Определяем текущую
-       видимую стадию.
-    */
-
-    const currentImage =
-        [
-            sproutImage,
-            budImage,
-            flowerImage
-        ].find(
-            img =>
-                img.classList.contains(
-                    "visible"
-                )
-        );
+    const currentImage = [
+        sproutImage,
+        budImage,
+        flowerImage
+    ].find(
+        img => img.classList.contains("visible")
+    );
 
 
-    /*
-       Подготавливаем следующую стадию.
-    */
+    /* Подготавливаем новую стадию */
 
-    nextImage.style.transition =
-        "none";
+    nextImage.style.display = "block";
+    nextImage.style.visibility = "visible";
 
-    nextImage.style.opacity =
-        "0";
+    nextImage.style.transition = "none";
 
-    nextImage.style.visibility =
-        "visible";
+    nextImage.style.opacity = "0";
 
     nextImage.style.transform =
         `
         translateX(-50%)
-        scale(0.90)
+        scale(0.82)
         `;
 
 
     await nextFrame();
+    await nextFrame();
 
 
-    /*
-       Возвращаем плавные переходы.
-    */
+    /* Начинаем плавное превращение */
 
     nextImage.style.transition =
         `
-        opacity 0.48s ease,
-        transform 0.62s ease
+        opacity .22s ease,
+        transform .32s ease
         `;
 
-
-    /*
-       Старая стадия растворяется.
-    */
 
     if (
         currentImage &&
         currentImage !== nextImage
     ) {
 
-        currentImage.style.opacity =
-            "0";
+        currentImage.style.transition =
+            `
+            opacity .20s ease,
+            transform .28s ease
+            `;
+
+        currentImage.style.opacity = "0";
 
         currentImage.style.transform =
             `
             translateX(-50%)
-            scale(0.94)
+            scale(1.06)
             `;
     }
 
 
-    /*
-       Новая стадия одновременно
-       появляется и растёт.
-    */
+    nextImage.classList.add("visible");
 
-    nextImage.classList.add(
-        "visible"
-    );
-
-    nextImage.style.opacity =
-        "1";
+    nextImage.style.opacity = "1";
 
     nextImage.style.transform =
         `
@@ -836,27 +810,22 @@ async function changePlantStage(
         `;
 
 
-    await wait(620);
+    await wait(320);
 
 
-    /*
-       Полностью прячем старую картинку
-       только после окончания перехода.
-    */
+    /* Старую картинку убираем только после перехода */
 
     if (
         currentImage &&
         currentImage !== nextImage
     ) {
 
-        currentImage.classList.remove(
-            "visible"
-        );
+        currentImage.classList.remove("visible");
 
-        currentImage.style.visibility =
-            "hidden";
+        currentImage.style.display = "none";
+
+        currentImage.style.visibility = "hidden";
     }
-
 }
 
 
@@ -1334,64 +1303,42 @@ function createDrop(
 
 async function growPlant() {
 
-    /*
-       Если росток до этого увял,
-       возвращаем его в норму.
-    */
+    sproutImage.classList.remove("wilt");
 
-    sproutImage.classList.remove(
-        "wilt"
-    );
+    sproutImage.style.animation = "none";
+    sproutImage.style.filter = "none";
 
-    sproutImage.style.animation =
-        "none";
+    sproutImage.style.display = "block";
+    sproutImage.style.visibility = "visible";
+    sproutImage.style.opacity = "1";
 
-    sproutImage.style.filter =
-        "none";
+    sproutImage.classList.add("visible");
 
+    sproutImage.style.transition =
+        "transform .25s ease";
 
     sproutImage.style.transform =
         `
         translateX(-50%)
-        scale(1)
+        scale(1.06)
         `;
 
 
-    /*
-       Росток остаётся немного видимым
-       после полива.
-    */
+    /* Росток почти сразу превращается в бутон */
 
-    await wait(300);
+    await wait(180);
 
-
-    /*
-       Росток → бутон.
-    */
-
-    await changePlantStage(
-        "bud"
-    );
+    await changePlantStage("bud");
 
 
-    /*
-       Даём ребёнку увидеть бутон.
-    */
+    /* Бутон сразу начинает раскрываться */
 
-    await wait(850);
+    await wait(180);
 
-
-    /*
-       Бутон → раскрытый цветок.
-    */
-
-    await changePlantStage(
-        "flower"
-    );
+    await changePlantStage("flower");
 
 
-    await wait(450);
-
+    await wait(120);
 }
 
 
