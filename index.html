@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,7 +59,8 @@ body {
     font-size: clamp(20px, 2.4vw, 34px);
     font-weight: 800;
 
-    box-shadow: 0 5px 14px rgba(0,0,0,0.12);
+    box-shadow:
+        0 5px 14px rgba(0,0,0,0.12);
 }
 
 
@@ -92,22 +94,15 @@ body {
     position: absolute;
 
     left: 50%;
-
-    /*
-       Опускаем растение внутрь горшка.
-       Теперь нижняя часть PNG должна
-       заходить в область земли.
-    */
-  bottom: 33%;
+    bottom: 33%;
 
     width: 170px;
     height: 230px;
 
     transform: translateX(-50%);
-
     transform-origin: center bottom;
 
-   z-index: 35;
+    z-index: 35;
 
     pointer-events: none;
 }
@@ -134,21 +129,26 @@ body {
     visibility: hidden;
 
     transition:
-        opacity 0.45s ease,
-        transform 0.6s ease;
+        opacity 0.48s ease,
+        transform 0.62s ease;
 
     transform:
         translateX(-50%)
-        translateY(8px)
-        scale(0.82);
+        scale(0.90);
 }
 
-    /*
-       КРИТИЧНО:
-       все картинки скрыты,
-       пока JS явно не покажет нужную.
-    */
-    display: none;
+
+/*
+   Активная стадия растения
+*/
+
+.plant-stage.visible {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translateX(-50%)
+        scale(1);
 }
 
 
@@ -159,10 +159,6 @@ body {
 #sproutImage {
     width: 95px;
     height: 135px;
-
-    transform:
-        translateX(-50%)
-        scale(1);
 }
 
 
@@ -173,12 +169,6 @@ body {
 #budImage {
     width: 155px;
     height: 225px;
-
-    
-
-    transform:
-        translateX(-50%)
-        scale(1);
 }
 
 
@@ -189,12 +179,6 @@ body {
 #flowerImage {
     width: 175px;
     height: 245px;
-
-   
-
-    transform:
-        translateX(-50%)
-        scale(1);
 }
 
 
@@ -259,9 +243,6 @@ body {
 
     object-fit: contain;
 
-    /*
-       Горшок перекрывает низ растения.
-    */
     z-index: 30;
 
     pointer-events: none;
@@ -283,11 +264,14 @@ body {
     left: 50%;
     bottom: 15.5%;
 
-    transform: translate(-50%, 50%);
+    transform:
+        translate(-50%, 50%);
 
     z-index: 40;
 
-    font-size: clamp(42px, 4.5vw, 66px);
+    font-size:
+        clamp(42px, 4.5vw, 66px);
+
     font-weight: 900;
 
     color: #a4422e;
@@ -307,13 +291,15 @@ body {
 
     bottom: 7%;
 
-    width: min(24vw, 330px);
+    width:
+        min(24vw, 330px);
 
     cursor: pointer;
 
     z-index: 60;
 
-    transform-origin: center center;
+    transform-origin:
+        center center;
 
     transition:
         left 0.8s ease,
@@ -321,7 +307,8 @@ body {
         bottom 0.8s ease,
         transform 0.65s ease;
 
-    touch-action: manipulation;
+    touch-action:
+        manipulation;
 }
 
 #leftCan {
@@ -357,7 +344,8 @@ body {
     width: 14px;
     height: 20px;
 
-    border-radius: 50% 50% 60% 60%;
+    border-radius:
+        50% 50% 60% 60%;
 
     background:
         linear-gradient(
@@ -381,7 +369,8 @@ body {
     right: 4%;
     bottom: 4%;
 
-    padding: 17px 36px;
+    padding:
+        17px 36px;
 
     border: none;
     border-radius: 30px;
@@ -411,7 +400,8 @@ body {
 @media (max-width: 900px) {
 
     .watering-can {
-        width: min(27vw, 280px);
+        width:
+            min(27vw, 280px);
     }
 
     #leftCan {
@@ -421,7 +411,6 @@ body {
     #rightCan {
         right: 8%;
     }
-
 }
 
 </style>
@@ -434,7 +423,7 @@ body {
 
 
     <div id="progress">
-        1 / 2
+        1 / 5
     </div>
 
 
@@ -444,12 +433,14 @@ body {
         class="watering-can"
         id="leftCan"
     >
+
         <img
             id="leftCanImage"
             src=""
             alt=""
             draggable="false"
         >
+
     </div>
 
 
@@ -459,12 +450,14 @@ body {
         class="watering-can"
         id="rightCan"
     >
+
         <img
             id="rightCanImage"
             src=""
             alt=""
             draggable="false"
         >
+
     </div>
 
 
@@ -477,7 +470,9 @@ body {
 
         <div id="plant">
 
+
             <!-- СТАДИЯ 1 -->
+
             <img
                 id="sproutImage"
                 class="plant-stage"
@@ -486,7 +481,9 @@ body {
                 draggable="false"
             >
 
-            <!-- СТАДИЯ 2 -->
+
+            <!-- СТАДИЯ 2 — БУТОН -->
+
             <img
                 id="budImage"
                 class="plant-stage"
@@ -495,11 +492,13 @@ body {
                 draggable="false"
             >
 
-            <!-- СТАДИЯ 3 -->
+
+            <!-- СТАДИЯ 3 — ЦВЕТОК -->
+
             <img
                 id="flowerImage"
                 class="plant-stage"
-               src="images/plants/flower1_bud.PNG"
+                src="images/plants/flower1_bud.PNG"
                 alt=""
                 draggable="false"
             >
@@ -544,54 +543,99 @@ const rounds = [
 
     {
         letter: "Л",
-        leftImage: "images/round1_left.PNG",
-        rightImage: "images/round1_right.PNG",
+
+        leftImage:
+            "images/round1_left.PNG",
+
+        rightImage:
+            "images/round1_right.PNG",
+
         correct: "left",
-        budImage: "images/plants/flower1_bud.PNG",
-        flowerImage: "images/plants/flower1.PNG"
+
+        budImage:
+            "images/plants/flower1.PNG",
+
+        flowerImage:
+            "images/plants/flower1_bud.PNG"
     },
 
     {
         letter: "Р",
-        leftImage: "images/round2_left.PNG",
-        rightImage: "images/round2_right.PNG",
+
+        leftImage:
+            "images/round2_left.PNG",
+
+        rightImage:
+            "images/round2_right.PNG",
+
         correct: "left",
-        budImage: "images/plants/flower1.PNG",
-flowerImage: "images/plants/flower1_bud.PNG"
+
+        budImage:
+            "images/plants/flower1.PNG",
+
+        flowerImage:
+            "images/plants/flower1_bud.PNG"
     },
 
     {
         letter: "Р",
-        leftImage: "images/round3_left.PNG",
-        rightImage: "images/round3_right.PNG",
+
+        leftImage:
+            "images/round3_left.PNG",
+
+        rightImage:
+            "images/round3_right.PNG",
+
         correct: "left",
-       budImage: "images/plants/flower1.PNG",
-flowerImage: "images/plants/flower1_bud.PNG"
+
+        budImage:
+            "images/plants/flower1.PNG",
+
+        flowerImage:
+            "images/plants/flower1_bud.PNG"
     },
 
     {
         letter: "Л",
-        leftImage: "images/round4_left.PNG",
-        rightImage: "images/round4_right.PNG",
+
+        leftImage:
+            "images/round4_left.PNG",
+
+        rightImage:
+            "images/round4_right.PNG",
+
         correct: "right",
-        budImage: "images/plants/flower1.PNG",
-flowerImage: "images/plants/flower1_bud.PNG"
+
+        budImage:
+            "images/plants/flower1.PNG",
+
+        flowerImage:
+            "images/plants/flower1_bud.PNG"
     },
 
     {
         letter: "Р",
-        leftImage: "images/round5_left.PNG",
-        rightImage: "images/round5_right.PNG",
+
+        leftImage:
+            "images/round5_left.PNG",
+
+        rightImage:
+            "images/round5_right.PNG",
+
         correct: "left",
-        budImage: "images/plants/flower1.PNG",
-flowerImage: "images/plants/flower1_bud.PNG"
+
+        budImage:
+            "images/plants/flower1.PNG",
+
+        flowerImage:
+            "images/plants/flower1_bud.PNG"
     }
 
 ];
 
 
 /* =====================================
-   ПЕРЕМЕННЫЕ
+   СОСТОЯНИЕ
    ===================================== */
 
 let currentRound = 0;
@@ -645,35 +689,37 @@ const nextButton =
 
 function preloadImages() {
 
-   const files = [
+    const files = [
 
-    "images/round1_left.PNG",
-    "images/round1_right.PNG",
+        "images/round1_left.PNG",
+        "images/round1_right.PNG",
 
-    "images/round2_left.PNG",
-    "images/round2_right.PNG",
+        "images/round2_left.PNG",
+        "images/round2_right.PNG",
 
-    "images/round3_left.PNG",
-    "images/round3_right.PNG",
+        "images/round3_left.PNG",
+        "images/round3_right.PNG",
 
-    "images/round4_left.PNG",
-    "images/round4_right.PNG",
+        "images/round4_left.PNG",
+        "images/round4_right.PNG",
 
-    "images/round5_left.PNG",
-    "images/round5_right.PNG",
+        "images/round5_left.PNG",
+        "images/round5_right.PNG",
 
-    "images/plants/sprout.PNG",
-    "images/plants/flower1_bud.PNG",
-    "images/plants/flower1.PNG"
+        "images/plants/sprout.PNG",
+        "images/plants/flower1.PNG",
+        "images/plants/flower1_bud.PNG"
 
-];
+    ];
 
 
     files.forEach(src => {
 
-        const img = new Image();
+        const img =
+            new Image();
 
-        img.src = src;
+        img.src =
+            src;
 
     });
 
@@ -681,77 +727,136 @@ function preloadImages() {
 
 
 /* =====================================
-   ПОКАЗАТЬ ТОЛЬКО ОДНУ СТАДИЮ
+   ПЛАВНАЯ СМЕНА СТАДИИ
    ===================================== */
 
-function showOnly(stage) {
+async function changePlantStage(
+    nextStage
+) {
 
-    const stages = [
-        sproutImage,
-        budImage,
-        flowerImage
-    ];
+    const stages = {
+        sprout: sproutImage,
+        bud: budImage,
+        flower: flowerImage
+    };
+
+
+    const nextImage =
+        stages[nextStage];
+
 
     /*
-       Сначала все стадии плавно скрываем.
+       Определяем текущую
+       видимую стадию.
     */
 
-    stages.forEach(img => {
+    const currentImage =
+        [
+            sproutImage,
+            budImage,
+            flowerImage
+        ].find(
+            img =>
+                img.classList.contains(
+                    "visible"
+                )
+        );
 
-        img.style.opacity = "0";
-        img.style.visibility = "hidden";
 
-        img.style.transform =
+    /*
+       Подготавливаем следующую стадию.
+    */
+
+    nextImage.style.transition =
+        "none";
+
+    nextImage.style.opacity =
+        "0";
+
+    nextImage.style.visibility =
+        "visible";
+
+    nextImage.style.transform =
+        `
+        translateX(-50%)
+        scale(0.90)
+        `;
+
+
+    await nextFrame();
+
+
+    /*
+       Возвращаем плавные переходы.
+    */
+
+    nextImage.style.transition =
+        `
+        opacity 0.48s ease,
+        transform 0.62s ease
+        `;
+
+
+    /*
+       Старая стадия растворяется.
+    */
+
+    if (
+        currentImage &&
+        currentImage !== nextImage
+    ) {
+
+        currentImage.style.opacity =
+            "0";
+
+        currentImage.style.transform =
             `
             translateX(-50%)
-            translateY(8px)
-            scale(0.82)
+            scale(0.94)
             `;
-    });
-
-
-    /*
-       Потом выбираем нужную стадию.
-    */
-
-    let activeImage = null;
-
-    if (stage === "sprout") {
-        activeImage = sproutImage;
-    }
-
-    else if (stage === "bud") {
-        activeImage = budImage;
-    }
-
-    else if (stage === "flower") {
-        activeImage = flowerImage;
     }
 
 
     /*
-       Показываем нужную картинку
-       плавно.
+       Новая стадия одновременно
+       появляется и растёт.
     */
 
-    if (activeImage) {
+    nextImage.classList.add(
+        "visible"
+    );
 
-        activeImage.style.visibility =
-            "visible";
+    nextImage.style.opacity =
+        "1";
 
-        requestAnimationFrame(() => {
+    nextImage.style.transform =
+        `
+        translateX(-50%)
+        scale(1)
+        `;
 
-            activeImage.style.opacity =
-                "1";
 
-            activeImage.style.transform =
-                `
-                translateX(-50%)
-                translateY(0)
-                scale(1)
-                `;
-        });
+    await wait(620);
+
+
+    /*
+       Полностью прячем старую картинку
+       только после окончания перехода.
+    */
+
+    if (
+        currentImage &&
+        currentImage !== nextImage
+    ) {
+
+        currentImage.classList.remove(
+            "visible"
+        );
+
+        currentImage.style.visibility =
+            "hidden";
     }
+
 }
 
 
@@ -765,9 +870,11 @@ function loadRound() {
         rounds[currentRound];
 
 
-    animationLocked = false;
+    animationLocked =
+        false;
 
-    roundFinished = false;
+    roundFinished =
+        false;
 
 
     progress.textContent =
@@ -811,48 +918,94 @@ function loadRound() {
 
 function resetPlant() {
 
+    /*
+       Убираем увядание.
+    */
+
     sproutImage.classList.remove(
         "wilt"
     );
 
-
     sproutImage.style.animation =
         "none";
-
 
     sproutImage.style.filter =
         "none";
 
 
-    sproutImage.style.transform =
-        `
-        translateX(-50%)
-        rotate(0deg)
-        translateY(0)
-        scale(1)
-        `;
+    /*
+       Полностью очищаем
+       состояние всех стадий.
+    */
 
+    [
+        sproutImage,
+        budImage,
+        flowerImage
 
-    budImage.style.transform =
-        `
-        translateX(-50%)
-        scale(1)
-        `;
+    ].forEach(img => {
 
+        img.classList.remove(
+            "visible"
+        );
 
-    flowerImage.style.transform =
-        `
-        translateX(-50%)
-        scale(1)
-        `;
+        img.style.transition =
+            "none";
+
+        img.style.opacity =
+            "0";
+
+        img.style.visibility =
+            "hidden";
+
+        img.style.transform =
+            `
+            translateX(-50%)
+            scale(0.90)
+            `;
+    });
 
 
     /*
-       Начало раунда:
-       ТОЛЬКО РОСТОК.
+       Показываем только росток.
     */
 
-    showOnly("sprout");
+    sproutImage.classList.add(
+        "visible"
+    );
+
+    sproutImage.style.opacity =
+        "1";
+
+    sproutImage.style.visibility =
+        "visible";
+
+    sproutImage.style.transform =
+        `
+        translateX(-50%)
+        scale(1)
+        `;
+
+
+    requestAnimationFrame(
+        () => {
+
+            [
+                sproutImage,
+                budImage,
+                flowerImage
+
+            ].forEach(img => {
+
+                img.style.transition =
+                    `
+                    opacity 0.48s ease,
+                    transform 0.62s ease
+                    `;
+            });
+
+        }
+    );
 
 }
 
@@ -905,7 +1058,8 @@ async function chooseCan(side) {
     }
 
 
-    animationLocked = true;
+    animationLocked =
+        true;
 
 
     const round =
@@ -919,7 +1073,8 @@ async function chooseCan(side) {
 
 
     const correct =
-        side === round.correct;
+        side ===
+        round.correct;
 
 
     await animateWatering(
@@ -933,7 +1088,8 @@ async function chooseCan(side) {
         await growPlant();
 
 
-        roundFinished = true;
+        roundFinished =
+            true;
 
 
         nextButton.style.display =
@@ -948,7 +1104,8 @@ async function chooseCan(side) {
     }
 
 
-    animationLocked = false;
+    animationLocked =
+        false;
 
 }
 
@@ -1000,10 +1157,6 @@ async function animateWatering(
 
     await wait(1200);
 
-
-    /*
-       Возвращаем лейку.
-    */
 
     if (side === "left") {
 
@@ -1117,7 +1270,9 @@ function createDrop(
 ) {
 
     const drop =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     drop.className =
@@ -1175,63 +1330,68 @@ function createDrop(
 
 /* =====================================
    ПРАВИЛЬНЫЙ ОТВЕТ
-
-   Теперь порядок физически такой:
-
-   sprout
-   ↓
-   bud
-   ↓
-   flower
-
-   Другого варианта у кода нет.
    ===================================== */
 
 async function growPlant() {
 
     /*
-       Если до этого росток увял,
-       возвращаем его в нормальное состояние.
+       Если росток до этого увял,
+       возвращаем его в норму.
     */
 
-    sproutImage.classList.remove("wilt");
+    sproutImage.classList.remove(
+        "wilt"
+    );
 
-    sproutImage.style.animation = "none";
-    sproutImage.style.filter = "none";
+    sproutImage.style.animation =
+        "none";
+
+    sproutImage.style.filter =
+        "none";
+
 
     sproutImage.style.transform =
         `
         translateX(-50%)
-        translateY(0)
         scale(1)
         `;
 
 
     /*
-       СТАДИЯ 1 — РОСТОК
+       Росток остаётся немного видимым
+       после полива.
     */
 
-    showOnly("sprout");
-
-    await wait(500);
+    await wait(300);
 
 
     /*
-       СТАДИЯ 2 — БУТОН
+       Росток → бутон.
     */
 
-    showOnly("bud");
-
-    await wait(1300);
+    await changePlantStage(
+        "bud"
+    );
 
 
     /*
-       СТАДИЯ 3 — ЦВЕТОК
+       Даём ребёнку увидеть бутон.
     */
 
-    showOnly("flower");
+    await wait(850);
 
-    await wait(900);
+
+    /*
+       Бутон → раскрытый цветок.
+    */
+
+    await changePlantStage(
+        "flower"
+    );
+
+
+    await wait(450);
+
 }
 
 
@@ -1241,27 +1401,53 @@ async function growPlant() {
 
 async function wiltPlant() {
 
-
     /*
-       При неправильном ответе
-       физически показываем только росток.
+       Возвращаем только росток.
     */
 
-    showOnly("sprout");
+    [
+        budImage,
+        flowerImage
 
+    ].forEach(img => {
+
+        img.classList.remove(
+            "visible"
+        );
+
+        img.style.opacity =
+            "0";
+
+        img.style.visibility =
+            "hidden";
+
+    });
+
+
+    sproutImage.classList.add(
+        "visible"
+    );
+
+    sproutImage.style.visibility =
+        "visible";
+
+    sproutImage.style.opacity =
+        "1";
+
+
+    /*
+       Перезапускаем увядание.
+    */
 
     sproutImage.classList.remove(
         "wilt"
     );
 
-
     sproutImage.style.animation =
         "none";
 
-
     sproutImage.style.filter =
         "none";
-
 
     sproutImage.style.transform =
         `
@@ -1271,10 +1457,6 @@ async function wiltPlant() {
         scale(1)
         `;
 
-
-    /*
-       Перезапуск анимации.
-    */
 
     void sproutImage.offsetWidth;
 
@@ -1289,12 +1471,6 @@ async function wiltPlant() {
 
 
     await wait(1000);
-
-
-    /*
-       Не сбрасываем.
-       Он остаётся увядшим.
-    */
 
 }
 
@@ -1445,13 +1621,15 @@ function wait(ms) {
 
 leftCan.addEventListener(
     "click",
-    () => chooseCan("left")
+    () =>
+        chooseCan("left")
 );
 
 
 rightCan.addEventListener(
     "click",
-    () => chooseCan("right")
+    () =>
+        chooseCan("right")
 );
 
 
