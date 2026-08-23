@@ -531,38 +531,47 @@ const rounds = [
 
     {
         letter: "Л",
-
-        leftImage:
-            "images/round1_left.PNG",
-
-        rightImage:
-            "images/round1_right.PNG",
-
+        leftImage: "images/round1_left.PNG",
+        rightImage: "images/round1_right.PNG",
         correct: "left",
-
-       budImage:
-    "images/plants/flower1.PNG",
-
-flowerImage:
-    "images/plants/flower1_bud.PNG"
+        budImage: "images/plants/flower1_bud.PNG",
+        flowerImage: "images/plants/flower1.PNG"
     },
 
     {
         letter: "Р",
-
-        leftImage:
-            "images/round2_left.PNG",
-
-        rightImage:
-            "images/round2_right.PNG",
-
+        leftImage: "images/round2_left.PNG",
+        rightImage: "images/round2_right.PNG",
         correct: "left",
+        budImage: "images/plants/flower1_bud.PNG",
+        flowerImage: "images/plants/flower1.PNG"
+    },
 
-        budImage:
-    "images/plants/flower1.PNG",
+    {
+        letter: "Р",
+        leftImage: "images/round3_left.PNG",
+        rightImage: "images/round3_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower1_bud.PNG",
+        flowerImage: "images/plants/flower1.PNG"
+    },
 
-flowerImage:
-    "images/plants/flower1_bud.PNG"
+    {
+        letter: "Л",
+        leftImage: "images/round4_left.PNG",
+        rightImage: "images/round4_right.PNG",
+        correct: "right",
+        budImage: "images/plants/flower1_bud.PNG",
+        flowerImage: "images/plants/flower1.PNG"
+    },
+
+    {
+        letter: "Р",
+        leftImage: "images/round5_left.PNG",
+        rightImage: "images/round5_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower1_bud.PNG",
+        flowerImage: "images/plants/flower1.PNG"
     }
 
 ];
@@ -623,19 +632,28 @@ const nextButton =
 
 function preloadImages() {
 
-    const files = [
+   const files = [
 
-        "images/round1_left.PNG",
-        "images/round1_right.PNG",
+    "images/round1_left.PNG",
+    "images/round1_right.PNG",
 
-        "images/round2_left.PNG",
-        "images/round2_right.PNG",
+    "images/round2_left.PNG",
+    "images/round2_right.PNG",
 
-        "images/plants/sprout.PNG",
-        "images/plants/flower1_bud.PNG",
-        "images/plants/flower1.PNG"
+    "images/round3_left.PNG",
+    "images/round3_right.PNG",
 
-    ];
+    "images/round4_left.PNG",
+    "images/round4_right.PNG",
+
+    "images/round5_left.PNG",
+    "images/round5_right.PNG",
+
+    "images/plants/sprout.PNG",
+    "images/plants/flower1_bud.PNG",
+    "images/plants/flower1.PNG"
+
+];
 
 
     files.forEach(src => {
