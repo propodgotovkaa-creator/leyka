@@ -22,19 +22,37 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-
     font-family: Arial, sans-serif;
-
     background: #dfeee0;
 }
 
 
-/* =====================================
-   ОКНО
+/* =========================
+   ЭКРАН ЗАГРУЗКИ
+   ========================= */
 
-   Это реальный размер браузера / iframe.
-   Внутри него масштабируется вся игра.
-   ===================================== */
+#loadingScreen {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+
+    background: #dfeee0;
+
+    color: #4d704c;
+
+    font-size: 32px;
+    font-weight: 800;
+}
+
+
+/* =========================
+   VIEWPORT
+   ========================= */
 
 #viewport {
     position: relative;
@@ -43,19 +61,14 @@ body {
     height: 100vh;
 
     overflow: hidden;
+
+    visibility: hidden;
 }
 
 
-/* =====================================
-   ВНУТРЕННЯЯ СЦЕНА
-
-   ВСЕГДА 1600 × 900.
-
-   Мы больше НЕ перестраиваем отдельно
-   горшок, растение, лейки и т.д.
-
-   Масштабируется ВСЯ сцена целиком.
-   ===================================== */
+/* =========================
+   ИГРОВАЯ СЦЕНА
+   ========================= */
 
 #game {
     position: absolute;
@@ -67,10 +80,6 @@ body {
     height: 900px;
 
     transform-origin: center center;
-
-    /*
-       JS добавит scale(...)
-    */
 
     background-image: url("fon.PNG");
     background-size: cover;
@@ -99,8 +108,7 @@ body {
 
     border-radius: 30px;
 
-    background:
-        rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.92);
 
     color: #4d704c;
 
@@ -122,8 +130,7 @@ body {
     left: 50%;
     bottom: 63px;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
     width: 350px;
     height: 500px;
@@ -140,23 +147,13 @@ body {
     position: absolute;
 
     left: 50%;
-
-    /*
-       ЭТА ТОЧКА БОЛЬШЕ НЕ МЕНЯЕТСЯ.
-       Основание всех растений находится
-       в одном месте относительно горшка.
-    */
-
     bottom: 165px;
 
     width: 170px;
     height: 230px;
 
-    transform:
-        translateX(-50%);
-
-    transform-origin:
-        center bottom;
+    transform: translateX(-50%);
+    transform-origin: center bottom;
 
     z-index: 35;
 
@@ -175,11 +172,9 @@ body {
     bottom: 0;
 
     object-fit: contain;
-    object-position:
-        center bottom;
+    object-position: center bottom;
 
-    transform-origin:
-        center bottom;
+    transform-origin: center bottom;
 
     pointer-events: none;
 
@@ -250,8 +245,7 @@ body {
     left: 50%;
     bottom: 0;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
     width: 350px;
     height: auto;
@@ -279,8 +273,7 @@ body {
     left: 50%;
     bottom: 77px;
 
-    transform:
-        translate(-50%, 50%);
+    transform: translate(-50%, 50%);
 
     z-index: 40;
 
@@ -310,8 +303,7 @@ body {
 
     z-index: 60;
 
-    transform-origin:
-        center center;
+    transform-origin: center center;
 
     transition:
         left 0.8s ease,
@@ -322,16 +314,13 @@ body {
     touch-action: manipulation;
 }
 
-
 #leftCan {
     left: 192px;
 }
 
-
 #rightCan {
     right: 192px;
 }
-
 
 .watering-can img {
     display: block;
@@ -374,7 +363,7 @@ body {
 
 
 /* =========================
-   ДАЛЬШЕ
+   КНОПКА ДАЛЬШЕ
    ========================= */
 
 #nextButton {
@@ -413,13 +402,18 @@ body {
 
 <body>
 
+<div id="loadingScreen">
+    Загрузка...
+</div>
+
+
 <div id="viewport">
 
 <div id="game">
 
 
     <div id="progress">
-        1 / 5
+        1 / 15
     </div>
 
 
@@ -534,6 +528,7 @@ body {
         Дальше
     </button>
 
+
 </div>
 
 </div>
@@ -541,181 +536,26 @@ body {
 
 <script>
 
-/* =====================================
-   МАСШТАБ ВСЕЙ ИГРЫ
-
-   Исходная сцена:
-   1600 × 900.
-
-   При изменении размера окна
-   уменьшается/увеличивается ВСЁ сразу.
-   ===================================== */
+/* =========================
+   РАЗМЕР СЦЕНЫ
+   ========================= */
 
 const DESIGN_WIDTH = 1600;
 const DESIGN_HEIGHT = 900;
-
-const game =
-    document.getElementById("game");
-
-
-function resizeGame() {
-
-    const scaleX =
-        window.innerWidth /
-        DESIGN_WIDTH;
-
-
-    const scaleY =
-        window.innerHeight /
-        DESIGN_HEIGHT;
-
-
-    /*
-       Берём меньший коэффициент,
-       чтобы вся сцена целиком помещалась.
-    */
-
-    const scale =
-        Math.min(
-            scaleX,
-            scaleY
-        );
-
-
-    game.style.transform =
-        `
-        translate(-50%, -50%)
-        scale(${scale})
-        `;
-
-}
-
-
-window.addEventListener(
-    "resize",
-    resizeGame
-);
-
-
-resizeGame();
-
-
-
-/* =========================
-   РАУНДЫ
-   ========================= */
-
-const rounds = [
-
-    {
-        letter: "Л",
-
-        leftImage:
-            "images/round1_left.PNG",
-
-        rightImage:
-            "images/round1_right.PNG",
-
-        correct: "left",
-
-        budImage:
-            "images/plants/flower1.PNG",
-
-        flowerImage:
-            "images/plants/flower1_bud.PNG"
-    },
-
-    {
-        letter: "Р",
-
-        leftImage:
-            "images/round2_left.PNG",
-
-        rightImage:
-            "images/round2_right.PNG",
-
-        correct: "left",
-
-        budImage:
-            "images/plants/flower2.PNG",
-
-        flowerImage:
-            "images/plants/flower2_bud.PNG"
-    },
-
-    {
-        letter: "Р",
-
-        leftImage:
-            "images/round3_left.PNG",
-
-        rightImage:
-            "images/round3_right.PNG",
-
-        correct: "right",
-
-        budImage:
-            "images/plants/flower3.PNG",
-
-        flowerImage:
-            "images/plants/flower3_bud.PNG"
-    },
-
-    {
-        letter: "Л",
-
-        leftImage:
-            "images/round4_left.PNG",
-
-        rightImage:
-            "images/round4_right.PNG",
-
-        correct: "right",
-
-        budImage:
-            "images/plants/flower4.PNG",
-
-        flowerImage:
-            "images/plants/flower4_bud.PNG"
-    },
-
-    {
-        letter: "Р",
-
-        leftImage:
-            "images/round5_left.PNG",
-
-        rightImage:
-            "images/round5_right.PNG",
-
-        correct: "left",
-
-        budImage:
-            "images/plants/flower5.PNG",
-
-        flowerImage:
-            "images/plants/flower5_bud.PNG"
-    }
-
-];
-
-
-/* =========================
-   СОСТОЯНИЕ
-   ========================= */
-
-let currentRound = 0;
-
-let animationLocked = false;
-
-let roundFinished = false;
-
-let plantIsWilted = false;
 
 
 /* =========================
    ЭЛЕМЕНТЫ
    ========================= */
+
+const game =
+    document.getElementById("game");
+
+const viewport =
+    document.getElementById("viewport");
+
+const loadingScreen =
+    document.getElementById("loadingScreen");
 
 const leftCan =
     document.getElementById("leftCan");
@@ -755,27 +595,244 @@ const nextButton =
 
 
 /* =========================
-   ПРЕДЗАГРУЗКА
+   МАСШТАБ ВСЕЙ ИГРЫ
    ========================= */
 
-function preloadImages() {
+function resizeGame() {
+
+    const scaleX =
+        window.innerWidth /
+        DESIGN_WIDTH;
+
+    const scaleY =
+        window.innerHeight /
+        DESIGN_HEIGHT;
+
+    const scale =
+        Math.min(
+            scaleX,
+            scaleY
+        );
+
+    game.style.transform =
+        `
+        translate(-50%, -50%)
+        scale(${scale})
+        `;
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeGame
+);
+
+
+/* =========================
+   РАУНДЫ
+   ========================= */
+
+const rounds = [
+
+    {
+        letter: "Л",
+        leftImage: "images/round1_left.PNG",
+        rightImage: "images/round1_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower1.PNG",
+        flowerImage: "images/plants/flower1_bud.PNG"
+    },
+
+    {
+        letter: "Р",
+        leftImage: "images/round2_left.PNG",
+        rightImage: "images/round2_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower2.PNG",
+        flowerImage: "images/plants/flower2_bud.PNG"
+    },
+
+    {
+        letter: "Р",
+        leftImage: "images/round3_left.PNG",
+        rightImage: "images/round3_right.PNG",
+        correct: "right",
+        budImage: "images/plants/flower3.PNG",
+        flowerImage: "images/plants/flower3_bud.PNG"
+    },
+
+    {
+        letter: "Л",
+        leftImage: "images/round4_left.PNG",
+        rightImage: "images/round4_right.PNG",
+        correct: "right",
+        budImage: "images/plants/flower4.PNG",
+        flowerImage: "images/plants/flower4_bud.PNG"
+    },
+
+    {
+        letter: "Р",
+        leftImage: "images/round5_left.PNG",
+        rightImage: "images/round5_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower5.PNG",
+        flowerImage: "images/plants/flower5_bud.PNG"
+    },
+
+
+    /* =====================
+       РАУНДЫ 6–10
+       ===================== */
+
+    {
+        letter: "Р",
+        leftImage: "images/round6_left.PNG",
+        rightImage: "images/round6_right.PNG",
+        correct: "right",
+        budImage: "images/plants/flower1.PNG",
+        flowerImage: "images/plants/flower1_bud.PNG"
+    },
+
+    {
+        letter: "Л",
+        leftImage: "images/round7_left.PNG",
+        rightImage: "images/round7_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower2.PNG",
+        flowerImage: "images/plants/flower2_bud.PNG"
+    },
+
+    {
+        letter: "Л",
+        leftImage: "images/round8_left.PNG",
+        rightImage: "images/round8_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower3.PNG",
+        flowerImage: "images/plants/flower3_bud.PNG"
+    },
+
+    {
+        letter: "Р",
+        leftImage: "images/round9_left.PNG",
+        rightImage: "images/round9_right.PNG",
+        correct: "right",
+        budImage: "images/plants/flower4.PNG",
+        flowerImage: "images/plants/flower4_bud.PNG"
+    },
+
+    {
+        letter: "Л",
+        leftImage: "images/round10_left.PNG",
+        rightImage: "images/round10_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower5.PNG",
+        flowerImage: "images/plants/flower5_bud.PNG"
+    },
+
+
+    /* =====================
+       РАУНДЫ 11–15
+       ===================== */
+
+    {
+        letter: "Р",
+        leftImage: "images/round11_left.PNG",
+        rightImage: "images/round11_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower1.PNG",
+        flowerImage: "images/plants/flower1_bud.PNG"
+    },
+
+    {
+        letter: "Р",
+        leftImage: "images/round12_left.PNG",
+        rightImage: "images/round12_right.PNG",
+        correct: "right",
+        budImage: "images/plants/flower2.PNG",
+        flowerImage: "images/plants/flower2_bud.PNG"
+    },
+
+    {
+        letter: "Л",
+        leftImage: "images/round13_left.PNG",
+        rightImage: "images/round13_right.PNG",
+        correct: "left",
+        budImage: "images/plants/flower3.PNG",
+        flowerImage: "images/plants/flower3_bud.PNG"
+    },
+
+    {
+        letter: "Л",
+        leftImage: "images/round14_left.PNG",
+        rightImage: "images/round14_right.PNG",
+        correct: "right",
+        budImage: "images/plants/flower4.PNG",
+        flowerImage: "images/plants/flower4_bud.PNG"
+    },
+
+    {
+        letter: "Р",
+        leftImage: "images/round15_left.PNG",
+        rightImage: "images/round15_right.PNG",
+        correct: "right",
+        budImage: "images/plants/flower5.PNG",
+        flowerImage: "images/plants/flower5_bud.PNG"
+    }
+
+];
+
+
+/* =========================
+   СОСТОЯНИЕ
+   ========================= */
+
+let currentRound = 0;
+
+let animationLocked = false;
+
+let roundFinished = false;
+
+let plantIsWilted = false;
+
+
+/* =========================
+   ПОЛНАЯ ПРЕДЗАГРУЗКА
+   ========================= */
+
+function loadImage(src) {
+
+    return new Promise(resolve => {
+
+        const img =
+            new Image();
+
+        img.onload =
+            () => resolve();
+
+        img.onerror =
+            () => {
+
+                console.warn(
+                    "Не удалось загрузить:",
+                    src
+                );
+
+                resolve();
+            };
+
+        img.src =
+            src;
+
+    });
+}
+
+
+async function preloadAllImages() {
 
     const files = [
 
-        "images/round1_left.PNG",
-        "images/round1_right.PNG",
-
-        "images/round2_left.PNG",
-        "images/round2_right.PNG",
-
-        "images/round3_left.PNG",
-        "images/round3_right.PNG",
-
-        "images/round4_left.PNG",
-        "images/round4_right.PNG",
-
-        "images/round5_left.PNG",
-        "images/round5_right.PNG",
+        "fon.PNG",
+        "gorschok.PNG",
 
         "images/plants/sprout.PNG",
         "images/plants/wilt.PNG",
@@ -794,20 +851,28 @@ function preloadImages() {
 
         "images/plants/flower5.PNG",
         "images/plants/flower5_bud.PNG"
-
     ];
 
 
-    files.forEach(src => {
+    for (
+        let i = 1;
+        i <= 15;
+        i++
+    ) {
 
-        const img =
-            new Image();
+        files.push(
+            `images/round${i}_left.PNG`
+        );
 
-        img.src =
-            src;
+        files.push(
+            `images/round${i}_right.PNG`
+        );
+    }
 
-    });
 
+    await Promise.all(
+        files.map(loadImage)
+    );
 }
 
 
@@ -919,7 +984,6 @@ async function morphPlant(
 
 
     await nextFrame();
-
     await nextFrame();
 
 
@@ -1349,7 +1413,7 @@ async function growPlant() {
 
     /*
        Если растение уже увяло,
-       начинаем сразу с него.
+       начинаем прямо с него.
     */
 
     if (plantIsWilted) {
@@ -1536,11 +1600,6 @@ async function wiltPlant() {
         "hidden";
 
 
-    /*
-       Если уже увял,
-       просто оставляем его.
-    */
-
     if (
         wiltImage.style.visibility === "visible" &&
         wiltImage.style.opacity === "1"
@@ -1723,7 +1782,6 @@ function finishGame() {
             <h1
                 style="
                     color:#426d46;
-
                     font-size:65px;
                 "
             >
@@ -1816,12 +1874,26 @@ rightCan.addEventListener(
 
 
 /* =========================
-   ЗАПУСК
+   ЗАПУСК ИГРЫ
    ========================= */
 
-preloadImages();
+async function startGame() {
 
-loadRound();
+    resizeGame();
+
+    await preloadAllImages();
+
+    loadRound();
+
+    loadingScreen.style.display =
+        "none";
+
+    viewport.style.visibility =
+        "visible";
+}
+
+
+startGame();
 
 </script>
 
