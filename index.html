@@ -543,10 +543,10 @@ const rounds = [
         correct: "left",
 
         budImage:
-            "images/plants/flower1.PNG",
+            "images/plants/flower2.PNG",
 
         flowerImage:
-            "images/plants/flower1_bud.PNG"
+            "images/plants/flower2_bud.PNG"
     },
 
     {
@@ -556,10 +556,10 @@ const rounds = [
         correct: "left",
 
         budImage:
-            "images/plants/flower1.PNG",
+            "images/plants/flower3.PNG",
 
         flowerImage:
-            "images/plants/flower1_bud.PNG"
+            "images/plants/flower3_bud.PNG"
     },
 
     {
@@ -569,10 +569,10 @@ const rounds = [
         correct: "right",
 
         budImage:
-            "images/plants/flower1.PNG",
+            "images/plants/flower4.PNG",
 
         flowerImage:
-            "images/plants/flower1_bud.PNG"
+            "images/plants/flower4_bud.PNG"
     },
 
     {
@@ -582,10 +582,10 @@ const rounds = [
         correct: "left",
 
         budImage:
-            "images/plants/flower1.PNG",
+            "images/plants/flower5.PNG",
 
         flowerImage:
-            "images/plants/flower1_bud.PNG"
+            "images/plants/flower5_bud.PNG"
     }
 
 ];
@@ -662,8 +662,21 @@ function preloadImages() {
         "images/round5_right.PNG",
 
         "images/plants/sprout.PNG",
+
         "images/plants/flower1.PNG",
-        "images/plants/flower1_bud.PNG"
+        "images/plants/flower1_bud.PNG",
+
+        "images/plants/flower2.PNG",
+        "images/plants/flower2_bud.PNG",
+
+        "images/plants/flower3.PNG",
+        "images/plants/flower3_bud.PNG",
+
+        "images/plants/flower4.PNG",
+        "images/plants/flower4_bud.PNG",
+
+        "images/plants/flower5.PNG",
+        "images/plants/flower5_bud.PNG"
 
     ];
 
@@ -771,11 +784,6 @@ async function morphPlant(
     nextImage
 ) {
 
-    /*
-       Новая стадия подготавливается
-       чуть ниже и чуть меньше.
-    */
-
     nextImage.style.display =
         "block";
 
@@ -800,10 +808,6 @@ async function morphPlant(
     await nextFrame();
 
 
-    /*
-       Включаем плавность.
-    */
-
     nextImage.style.transition =
         `
         opacity 0.48s ease-in-out,
@@ -817,11 +821,6 @@ async function morphPlant(
         `;
 
 
-    /*
-       Старая стадия плавно растворяется,
-       но не мгновенно.
-    */
-
     currentImage.style.opacity =
         "0";
 
@@ -832,11 +831,6 @@ async function morphPlant(
         scale(1.035)
         `;
 
-
-    /*
-       Следующая стадия одновременно
-       поднимается и проявляется.
-    */
 
     nextImage.style.opacity =
         "1";
@@ -849,17 +843,8 @@ async function morphPlant(
         `;
 
 
-    /*
-       На протяжении этого времени
-       обе картинки существуют одновременно.
-    */
-
     await wait(580);
 
-
-    /*
-       Только теперь полностью скрываем старую.
-    */
 
     currentImage.style.visibility =
         "hidden";
@@ -1239,11 +1224,6 @@ function createDrop(
 
 async function growPlant() {
 
-    /*
-       Если ребёнок до этого ошибся,
-       возвращаем росток в норму.
-    */
-
     sproutImage.classList.remove(
         "wilt"
     );
@@ -1261,10 +1241,6 @@ async function growPlant() {
         "1";
 
 
-    /*
-       Росток сначала чуть вытягивается.
-    */
-
     sproutImage.style.transition =
         "transform 0.34s ease-in-out";
 
@@ -1279,39 +1255,20 @@ async function growPlant() {
     await wait(300);
 
 
-    /*
-       РОСТОК → БУТОН
-    */
-
     await morphPlant(
         sproutImage,
         budImage
     );
 
 
-    /*
-       Бутон немного остаётся видимым.
-       Пауза короткая, чтобы движение
-       ощущалось непрерывным.
-    */
-
     await wait(260);
 
-
-    /*
-       БУТОН → ЦВЕТОК
-    */
 
     await morphPlant(
         budImage,
         flowerImage
     );
 
-
-    /*
-       Финальный цветок слегка
-       "усаживается" в свой размер.
-    */
 
     flowerImage.style.transition =
         "transform 0.22s ease-out";
