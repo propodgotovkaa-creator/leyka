@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,15 +25,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-body {
-    background: #d9f0d2;
-}
-
-
-/* =========================
-   ИГРА
-   ========================= */
-
 #game {
     position: relative;
     width: 100vw;
@@ -41,7 +33,7 @@ body {
 
     background-image: url("fon.PNG");
     background-size: cover;
-    background-position: center center;
+    background-position: center;
     background-repeat: no-repeat;
 }
 
@@ -71,13 +63,12 @@ body {
     font-size: clamp(20px, 2.4vw, 34px);
     font-weight: 800;
 
-    box-shadow:
-        0 5px 14px rgba(0,0,0,0.12);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.12);
 }
 
 
 /* =========================
-   ЦЕНТРАЛЬНАЯ ЗОНА
+   ЦЕНТР
    ========================= */
 
 #plantArea {
@@ -99,6 +90,154 @@ body {
 
 
 /* =========================
+   РАСТЕНИЕ
+   ========================= */
+
+#plant {
+    position: absolute;
+
+    left: 50%;
+
+    /*
+       Новое положение.
+       48% было слишком высоко.
+       16% было слишком низко.
+    */
+    bottom: 24%;
+
+    width: 190px;
+    height: 270px;
+
+    transform: translateX(-50%);
+
+    transform-origin: center bottom;
+
+    /*
+       Растение находится ЗА передней
+       частью горшка, чтобы его земля
+       из PNG была скрыта горшком.
+       Но стебель и листья видны сверху.
+    */
+    z-index: 25;
+
+    pointer-events: none;
+}
+
+
+/* Все стадии */
+
+.plant-stage {
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    object-fit: contain;
+    object-position: center bottom;
+
+    transform-origin: center bottom;
+
+    pointer-events: none;
+
+    opacity: 0;
+}
+
+
+/* Маленький росток */
+
+#sproutImage {
+    width: 115px;
+    height: 170px;
+
+    transform:
+        translateX(-50%)
+        scale(1);
+
+    opacity: 1;
+
+    transition:
+        transform 0.5s ease,
+        filter 0.7s ease;
+}
+
+
+/* Растение с бутоном */
+
+#budImage {
+    width: 180px;
+    height: 270px;
+
+    transform:
+        translateX(-50%)
+        scale(0.72);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.7s ease;
+}
+
+
+/* Раскрытый цветок */
+
+#flowerImage {
+    width: 190px;
+    height: 280px;
+
+    transform:
+        translateX(-50%)
+        scale(0.72);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.7s ease;
+}
+
+
+/* =========================
+   УВЯДАНИЕ РОСТКА
+   ========================= */
+
+#plant.wilt #sproutImage {
+    animation:
+        wiltSprout
+        0.9s
+        ease
+        forwards;
+
+    filter:
+        saturate(0.65)
+        brightness(0.85);
+}
+
+@keyframes wiltSprout {
+
+    0% {
+        transform:
+            translateX(-50%)
+            rotate(0deg)
+            translateY(0)
+            scale(1);
+    }
+
+    45% {
+        transform:
+            translateX(-50%)
+            rotate(13deg)
+            translateY(4px)
+            scale(0.98);
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            rotate(28deg)
+            translateY(18px)
+            scale(0.94);
+    }
+}
+
+
+/* =========================
    ГОРШОК
    ========================= */
 
@@ -115,6 +254,9 @@ body {
 
     object-fit: contain;
 
+    /*
+       Горшок поверх нижней части растения.
+    */
     z-index: 30;
 
     pointer-events: none;
@@ -149,148 +291,8 @@ body {
     color: #a4422e;
 
     line-height: 1;
-    text-align: center;
 
     pointer-events: none;
-}
-
-
-/* =========================
-   РАСТЕНИЕ
-   ========================= */
-
-#plant {
-    position: absolute;
-
-    left: 50%;
-
-    /*
-       ГЛАВНОЕ ИЗМЕНЕНИЕ:
-       растение теперь намного ниже.
-    */
-    bottom: 16%;
-
-    width: 155px;
-    height: 235px;
-
-    transform:
-        translateX(-50%);
-
-    transform-origin:
-        center bottom;
-
-    z-index: 20;
-
-    pointer-events: none;
-}
-
-
-/* =========================
-   КАРТИНКА РАСТЕНИЯ
-   ========================= */
-
-#plantImage {
-    position: absolute;
-
-    left: 50%;
-    bottom: 0;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-    object-position:
-        center bottom;
-
-    transform:
-        translateX(-50%)
-        scale(1);
-
-    transform-origin:
-        center bottom;
-
-    opacity: 1;
-
-    transition:
-        transform 0.55s ease,
-        opacity 0.3s ease,
-        filter 0.6s ease;
-}
-
-
-/* =========================
-   УВЯДАНИЕ
-   ========================= */
-
-#plant.wilt {
-    animation:
-        wiltAnimation
-        0.9s
-        ease
-        forwards;
-}
-
-#plant.wilt #plantImage {
-    filter:
-        saturate(0.6)
-        brightness(0.82);
-}
-
-@keyframes wiltAnimation {
-
-    0% {
-        transform:
-            translateX(-50%)
-            rotate(0deg)
-            translateY(0);
-    }
-
-    50% {
-        transform:
-            translateX(-50%)
-            rotate(12deg)
-            translateY(5px);
-    }
-
-    100% {
-        transform:
-            translateX(-50%)
-            rotate(28deg)
-            translateY(17px);
-    }
-}
-
-
-/* =========================
-   ФИНАЛЬНОЕ РАСКРЫТИЕ
-   ========================= */
-
-#plant.bloom {
-    animation:
-        bloomAnimation
-        0.65s
-        ease;
-}
-
-@keyframes bloomAnimation {
-
-    0% {
-        transform:
-            translateX(-50%)
-            scale(0.92);
-    }
-
-    60% {
-        transform:
-            translateX(-50%)
-            scale(1.08);
-    }
-
-    100% {
-        transform:
-            translateX(-50%)
-            scale(1);
-    }
 }
 
 
@@ -303,17 +305,13 @@ body {
 
     bottom: 7%;
 
-    width:
-        min(24vw, 330px);
-
-    height: auto;
+    width: min(24vw, 330px);
 
     cursor: pointer;
 
     z-index: 60;
 
-    transform-origin:
-        center center;
+    transform-origin: center center;
 
     transition:
         left 0.8s ease,
@@ -321,8 +319,7 @@ body {
         bottom 0.8s ease,
         transform 0.65s ease;
 
-    touch-action:
-        manipulation;
+    touch-action: manipulation;
 }
 
 #leftCan {
@@ -349,7 +346,7 @@ body {
 
 
 /* =========================
-   ВОДА
+   КАПЛИ
    ========================= */
 
 .water-drop {
@@ -372,16 +369,11 @@ body {
     opacity: 0;
 
     pointer-events: none;
-
-    box-shadow:
-        inset
-        2px 2px 3px
-        rgba(255,255,255,0.45);
 }
 
 
 /* =========================
-   КНОПКА
+   ДАЛЬШЕ
    ========================= */
 
 #nextButton {
@@ -390,16 +382,12 @@ body {
     right: 4%;
     bottom: 4%;
 
-    padding:
-        17px 36px;
+    padding: 17px 36px;
 
     border: none;
-
-    border-radius:
-        30px;
+    border-radius: 30px;
 
     background: white;
-
     color: #3f7748;
 
     font-size: 24px;
@@ -408,8 +396,7 @@ body {
     cursor: pointer;
 
     box-shadow:
-        0 7px 15px
-        rgba(0,0,0,0.15);
+        0 7px 15px rgba(0,0,0,0.15);
 
     z-index: 110;
 
@@ -417,15 +404,10 @@ body {
 }
 
 
-/* =========================
-   МОБИЛЬНАЯ АДАПТАЦИЯ
-   ========================= */
-
 @media (max-width: 900px) {
 
     .watering-can {
-        width:
-            min(27vw, 280px);
+        width: min(27vw, 280px);
     }
 
     #leftCan {
@@ -437,22 +419,18 @@ body {
     }
 
     #plant {
-        bottom: 14%;
-
-        width: 145px;
-        height: 220px;
+        bottom: 23%;
     }
 }
 
 </style>
 </head>
 
+
 <body>
 
 <div id="game">
 
-
-    <!-- ПРОГРЕСС -->
 
     <div id="progress">
         1 / 2
@@ -498,13 +476,30 @@ body {
     <div id="plantArea">
 
 
-        <!-- РАСТЕНИЕ -->
+        <!-- ТРИ СТАДИИ РАСТЕНИЯ -->
 
         <div id="plant">
 
             <img
-                id="plantImage"
+                id="sproutImage"
+                class="plant-stage"
                 src="images/plants/sprout.PNG"
+                alt=""
+                draggable="false"
+            >
+
+            <img
+                id="budImage"
+                class="plant-stage"
+                src="images/plants/flower1_bud.PNG"
+                alt=""
+                draggable="false"
+            >
+
+            <img
+                id="flowerImage"
+                class="plant-stage"
+                src="images/plants/flower1.PNG"
                 alt=""
                 draggable="false"
             >
@@ -532,8 +527,6 @@ body {
     </div>
 
 
-    <!-- ДАЛЬШЕ -->
-
     <button id="nextButton">
         Дальше
     </button>
@@ -544,9 +537,9 @@ body {
 
 <script>
 
-/* =========================================
-   ДАННЫЕ РАУНДОВ
-   ========================================= */
+/* ==============================
+   РАУНДЫ
+   ============================== */
 
 const rounds = [
 
@@ -589,20 +582,21 @@ const rounds = [
 ];
 
 
-/* =========================================
+/* ==============================
    СОСТОЯНИЕ
-   ========================================= */
+   ============================== */
 
 let currentRound = 0;
 
 let animationLocked = false;
 
-let plantState = "sprout";
+let plantState =
+    "sprout";
 
 
-/* =========================================
+/* ==============================
    ЭЛЕМЕНТЫ
-   ========================================= */
+   ============================== */
 
 const leftCan =
     document.getElementById(
@@ -624,6 +618,31 @@ const rightCanImage =
         "rightCanImage"
     );
 
+const sproutImage =
+    document.getElementById(
+        "sproutImage"
+    );
+
+const budImage =
+    document.getElementById(
+        "budImage"
+    );
+
+const flowerImage =
+    document.getElementById(
+        "flowerImage"
+    );
+
+const plant =
+    document.getElementById(
+        "plant"
+    );
+
+const potImage =
+    document.getElementById(
+        "potImage"
+    );
+
 const targetLetter =
     document.getElementById(
         "targetLetter"
@@ -634,34 +653,19 @@ const progress =
         "progress"
     );
 
-const plant =
-    document.getElementById(
-        "plant"
-    );
-
-const plantImage =
-    document.getElementById(
-        "plantImage"
-    );
-
-const potImage =
-    document.getElementById(
-        "potImage"
-    );
-
 const nextButton =
     document.getElementById(
         "nextButton"
     );
 
 
-/* =========================================
+/* ==============================
    ПРЕДЗАГРУЗКА
-   ========================================= */
+   ============================== */
 
 function preloadImages() {
 
-    const sources = [
+    const files = [
 
         "images/round1_left.PNG",
         "images/round1_right.PNG",
@@ -677,51 +681,133 @@ function preloadImages() {
 
     ];
 
-    sources.forEach(src => {
+    files.forEach(src => {
 
-        const img =
+        const image =
             new Image();
 
-        img.src =
+        image.src =
             src;
 
     });
 }
 
 
-/* =========================================
-   ЗАГРУЗКА РАУНДА
-   ========================================= */
+/* ==============================
+   РАУНД
+   ============================== */
 
 function loadRound() {
 
     const round =
         rounds[currentRound];
 
+
     progress.textContent =
         `${currentRound + 1} / ${rounds.length}`;
+
 
     targetLetter.textContent =
         round.letter;
 
+
     leftCanImage.src =
         round.leftImage;
+
 
     rightCanImage.src =
         round.rightImage;
 
-    resetPlantForNewRound();
+
+    /*
+       Подготавливаем именно нужные
+       картинки растения.
+    */
+
+    budImage.src =
+        round.budImage;
+
+
+    flowerImage.src =
+        round.flowerImage;
+
+
+    resetPlant();
 
     resetCans();
+
 
     nextButton.style.display =
         "none";
 }
 
 
-/* =========================================
+/* ==============================
+   СБРОС РАСТЕНИЯ
+   ============================== */
+
+function resetPlant() {
+
+    plantState =
+        "sprout";
+
+
+    plant.classList.remove(
+        "wilt"
+    );
+
+
+    /*
+       Показываем ТОЛЬКО росток.
+    */
+
+    sproutImage.style.opacity =
+        "1";
+
+
+    sproutImage.style.animation =
+        "none";
+
+
+    sproutImage.style.filter =
+        "none";
+
+
+    sproutImage.style.transform =
+        `
+        translateX(-50%)
+        rotate(0deg)
+        translateY(0)
+        scale(1)
+        `;
+
+
+    budImage.style.opacity =
+        "0";
+
+
+    budImage.style.transform =
+        `
+        translateX(-50%)
+        scale(0.72)
+        `;
+
+
+    flowerImage.style.opacity =
+        "0";
+
+
+    flowerImage.style.transform =
+        `
+        translateX(-50%)
+        scale(0.72)
+        `;
+}
+
+
+/* ==============================
    СБРОС ЛЕЕК
-   ========================================= */
+   ============================== */
 
 function resetCans() {
 
@@ -752,9 +838,9 @@ function resetCans() {
 }
 
 
-/* =========================================
-   ВЫБОР
-   ========================================= */
+/* ==============================
+   НАЖАТИЕ
+   ============================== */
 
 async function chooseCan(side) {
 
@@ -762,27 +848,29 @@ async function chooseCan(side) {
         return;
     }
 
-    /*
-       Если цветок уже вырос,
-       больше выбирать нельзя.
-    */
 
     if (plantState === "flower") {
         return;
     }
 
-    animationLocked = true;
+
+    animationLocked =
+        true;
+
 
     const round =
         rounds[currentRound];
+
 
     const can =
         side === "left"
         ? leftCan
         : rightCan;
 
-    const isCorrect =
-        side === round.correct;
+
+    const correct =
+        side ===
+        round.correct;
 
 
     await animateWatering(
@@ -791,12 +879,13 @@ async function chooseCan(side) {
     );
 
 
-    if (isCorrect) {
+    if (correct) {
 
         await growPlant();
 
         plantState =
             "flower";
+
 
         nextButton.style.display =
             "block";
@@ -810,13 +899,14 @@ async function chooseCan(side) {
     }
 
 
-    animationLocked = false;
+    animationLocked =
+        false;
 }
 
 
-/* =========================================
-   АНИМАЦИЯ ЛЕЙКИ
-   ========================================= */
+/* ==============================
+   ПОЛИВ
+   ============================== */
 
 async function animateWatering(
     can,
@@ -859,10 +949,6 @@ async function animateWatering(
     await wait(1300);
 
 
-    /*
-       Возврат на место.
-    */
-
     if (side === "left") {
 
         can.style.left =
@@ -891,9 +977,9 @@ async function animateWatering(
 }
 
 
-/* =========================================
+/* ==============================
    ВОДА
-   ========================================= */
+   ============================== */
 
 function createWater(
     can,
@@ -903,25 +989,19 @@ function createWater(
     const canRect =
         can.getBoundingClientRect();
 
+
     const potRect =
         potImage.getBoundingClientRect();
 
 
-    let startX;
+    const startX =
+        side === "left"
 
+        ? canRect.right -
+          canRect.width * 0.12
 
-    if (side === "left") {
-
-        startX =
-            canRect.right -
-            canRect.width * 0.12;
-
-    } else {
-
-        startX =
-            canRect.left +
-            canRect.width * 0.12;
-    }
+        : canRect.left +
+          canRect.width * 0.12;
 
 
     const startY =
@@ -963,9 +1043,9 @@ function createWater(
 }
 
 
-/* =========================================
-   ОДНА КАПЛЯ
-   ========================================= */
+/* ==============================
+   КАПЛЯ
+   ============================== */
 
 function createDrop(
     startX,
@@ -987,8 +1067,10 @@ function createDrop(
     drop.style.left =
         `${startX}px`;
 
+
     drop.style.top =
         `${startY}px`;
+
 
     drop.style.opacity =
         "1";
@@ -1013,8 +1095,10 @@ function createDrop(
             drop.style.left =
                 `${endX}px`;
 
+
             drop.style.top =
                 `${endY}px`;
+
 
             drop.style.opacity =
                 "0.2";
@@ -1034,128 +1118,146 @@ function createDrop(
 }
 
 
-/* =========================================
+/* ==============================
    ПРАВИЛЬНЫЙ ОТВЕТ
-   ========================================= */
+
+   Теперь картинки НЕ меняют src.
+   Поэтому порядок невозможно
+   перепутать.
+   ============================== */
 
 async function growPlant() {
 
-    const round =
-        rounds[currentRound];
-
 
     /*
-       Если до этого росток увял,
-       возвращаем сам контейнер
-       вертикально.
+       Если росток был увядшим,
+       сначала он выпрямляется.
     */
 
     plant.classList.remove(
-        "wilt",
-        "bloom"
+        "wilt"
     );
 
 
-    plantImage.style.filter =
+    sproutImage.style.filter =
         "none";
 
 
-    /* =====================================
-       СТАДИЯ 1
-       ВСЕГДА СНАЧАЛА ТОЛЬКО РОСТОК
-       ===================================== */
-
-    plantImage.style.transition =
-        "none";
-
-
-    plantImage.src =
-        "images/plants/sprout.PNG";
+    sproutImage.style.transform =
+        `
+        translateX(-50%)
+        rotate(0deg)
+        translateY(0)
+        scale(1)
+        `;
 
 
-    plantImage.style.opacity =
+    await wait(350);
+
+
+
+    /* =========================
+       1. РОСТОК
+       ========================= */
+
+    sproutImage.style.transform =
+        `
+        translateX(-50%)
+        scale(1.10)
+        `;
+
+
+    await wait(500);
+
+
+
+    /* =========================
+       2. РОСТОК ИСЧЕЗАЕТ
+       ========================= */
+
+    sproutImage.style.opacity =
+        "0";
+
+
+    await wait(300);
+
+
+
+    /* =========================
+       3. ПОЯВЛЯЕТСЯ БУТОН
+       ========================= */
+
+    budImage.style.opacity =
         "1";
 
 
-    plantImage.style.transform =
+    budImage.style.transform =
         `
         translateX(-50%)
-        scale(0.88)
+        scale(0.78)
         `;
 
 
-    /*
-       Ждём два кадра браузера.
-       Это предотвращает мелькание
-       предыдущей картинки.
-    */
-
-    await nextFrame();
-
-    await nextFrame();
+    await wait(80);
 
 
-    plantImage.style.transition =
-        `
-        transform 0.55s ease,
-        opacity 0.3s ease,
-        filter 0.6s ease
-        `;
-
-
-    /*
-       Росток чуть вытягивается.
-    */
-
-    plantImage.style.transform =
+    budImage.style.transform =
         `
         translateX(-50%)
         scale(1)
         `;
 
 
-    await wait(650);
-
-
-
-    /* =====================================
-       СТАДИЯ 2
-       ТОЛЬКО БУТОН
-       ===================================== */
-
-    await swapPlantImage(
-        round.budImage,
-        0.78
-    );
-
-
     /*
-       Бутон плавно увеличивается.
+       Специально держим бутон
+       на экране целую секунду.
     */
-
-    plantImage.style.transform =
-        `
-        translateX(-50%)
-        scale(1)
-        `;
-
 
     await wait(1100);
 
 
 
-    /* =====================================
-       СТАДИЯ 3
-       ТОЛЬКО ТЕПЕРЬ ЦВЕТОК
-       ===================================== */
+    /* =========================
+       4. БУТОН ИСЧЕЗАЕТ
+       ========================= */
 
-    await swapPlantImage(
-        round.flowerImage,
-        0.82
-    );
+    budImage.style.opacity =
+        "0";
 
 
-    plantImage.style.transform =
+    await wait(350);
+
+
+
+    /* =========================
+       5. ТОЛЬКО ТЕПЕРЬ ЦВЕТОК
+       ========================= */
+
+    flowerImage.style.opacity =
+        "1";
+
+
+    flowerImage.style.transform =
+        `
+        translateX(-50%)
+        scale(0.76)
+        `;
+
+
+    await wait(80);
+
+
+    flowerImage.style.transform =
+        `
+        translateX(-50%)
+        scale(1.08)
+        `;
+
+
+    await wait(450);
+
+
+    flowerImage.style.transform =
         `
         translateX(-50%)
         scale(1)
@@ -1163,154 +1265,46 @@ async function growPlant() {
 
 
     await wait(400);
-
-
-    plant.classList.add(
-        "bloom"
-    );
-
-
-    await wait(650);
-
-
-    plant.classList.remove(
-        "bloom"
-    );
 }
 
 
-/* =========================================
-   БЕЗОПАСНАЯ СМЕНА PNG
-   ========================================= */
-
-async function swapPlantImage(
-    newSrc,
-    startScale
-) {
-
-    /*
-       Сначала полностью скрываем
-       старую картинку.
-    */
-
-    plantImage.style.opacity =
-        "0";
-
-
-    await wait(300);
-
-
-    /*
-       Только после исчезновения
-       меняем src.
-    */
-
-    plantImage.style.transition =
-        "none";
-
-
-    plantImage.src =
-        newSrc;
-
-
-    /*
-       Ждём, пока новая картинка
-       действительно загрузится.
-    */
-
-    await waitForImage(
-        plantImage
-    );
-
-
-    plantImage.style.transform =
-        `
-        translateX(-50%)
-        scale(${startScale})
-        `;
-
-
-    await nextFrame();
-
-    await nextFrame();
-
-
-    /*
-       Возвращаем переходы.
-    */
-
-    plantImage.style.transition =
-        `
-        transform 0.55s ease,
-        opacity 0.3s ease,
-        filter 0.6s ease
-        `;
-
-
-    plantImage.style.opacity =
-        "1";
-
-
-    await wait(350);
-}
-
-
-/* =========================================
+/* ==============================
    НЕПРАВИЛЬНЫЙ ОТВЕТ
-   ========================================= */
+   ============================== */
 
 async function wiltPlant() {
 
     /*
-       При ошибке должен увядать
-       только росток.
+       Бутон и цветок гарантированно
+       скрыты.
     */
 
+    budImage.style.opacity =
+        "0";
+
+
+    flowerImage.style.opacity =
+        "0";
+
+
+    /*
+       Росток остаётся виден.
+    */
+
+    sproutImage.style.opacity =
+        "1";
+
+
     plant.classList.remove(
-        "bloom",
         "wilt"
     );
 
 
-    plantImage.style.transition =
-        "none";
+    /*
+       Перезапускаем animation.
+    */
 
-
-    plantImage.src =
-        "images/plants/sprout.PNG";
-
-
-    await waitForImage(
-        plantImage
-    );
-
-
-    plantImage.style.opacity =
-        "1";
-
-
-    plantImage.style.transform =
-        `
-        translateX(-50%)
-        scale(0.88)
-        `;
-
-
-    plantImage.style.filter =
-        "none";
-
-
-    await nextFrame();
-
-    await nextFrame();
-
-
-    plantImage.style.transition =
-        `
-        transform 0.55s ease,
-        opacity 0.3s ease,
-        filter 0.6s ease
-        `;
+    void plant.offsetWidth;
 
 
     plant.classList.add(
@@ -1319,80 +1313,12 @@ async function wiltPlant() {
 
 
     await wait(1000);
-
-
-    /*
-       Здесь специально НЕТ resetPlant.
-       Росток остаётся увядшим.
-    */
 }
 
 
-/* =========================================
-   НОВЫЙ РАУНД
-   ========================================= */
-
-function resetPlantForNewRound() {
-
-    plantState =
-        "sprout";
-
-
-    plant.classList.remove(
-        "wilt",
-        "bloom"
-    );
-
-
-    plantImage.style.transition =
-        "none";
-
-
-    plantImage.src =
-        "images/plants/sprout.PNG";
-
-
-    plantImage.style.opacity =
-        "1";
-
-
-    /*
-       Маленький исходный росток.
-    */
-
-    plantImage.style.transform =
-        `
-        translateX(-50%)
-        scale(0.88)
-        `;
-
-
-    plantImage.style.filter =
-        "none";
-
-
-    requestAnimationFrame(
-        () => {
-
-            requestAnimationFrame(
-                () => {
-
-                    plantImage.style.transition =
-                        `
-                        transform 0.55s ease,
-                        opacity 0.3s ease,
-                        filter 0.6s ease
-                        `;
-                }
-            );
-        }
-    );
-}
-
-
-/* =========================================
+/* ==============================
    ДАЛЬШЕ
-   ========================================= */
+   ============================== */
 
 nextButton.addEventListener(
     "click",
@@ -1422,19 +1348,15 @@ nextButton.addEventListener(
 );
 
 
-/* =========================================
+/* ==============================
    ФИНАЛ
-   ========================================= */
+   ============================== */
 
 function finishGame() {
 
-    const game =
-        document.getElementById(
-            "game"
-        );
-
-
-    game.innerHTML = `
+    document
+        .getElementById("game")
+        .innerHTML = `
 
         <div
             style="
@@ -1447,10 +1369,8 @@ function finishGame() {
                 align-items:center;
                 justify-content:center;
 
-                text-align:center;
-
                 background:
-                    rgba(255,255,255,0.22);
+                    rgba(255,255,255,.22);
             "
         >
 
@@ -1464,28 +1384,22 @@ function finishGame() {
                         5vw,
                         65px
                     );
-
-                    text-shadow:
-                    0 2px 2px white;
                 "
             >
                 Тест пройден!
             </h1>
 
-
             <button
-                onclick="
-                    location.reload()
-                "
+                onclick="location.reload()"
 
                 style="
                     padding:
-                    18px 38px;
+                        18px 38px;
 
-                    border:none;
+                    border:0;
 
                     border-radius:
-                    32px;
+                        30px;
 
                     background:white;
 
@@ -1496,10 +1410,6 @@ function finishGame() {
                     font-weight:800;
 
                     cursor:pointer;
-
-                    box-shadow:
-                    0 7px 16px
-                    rgba(0,0,0,0.16);
                 "
             >
                 Играть ещё раз
@@ -1510,122 +1420,43 @@ function finishGame() {
 }
 
 
-/* =========================================
-   ОЖИДАНИЕ ЗАГРУЗКИ PNG
-   ========================================= */
-
-function waitForImage(img) {
-
-    return new Promise(
-        resolve => {
-
-            if (
-                img.complete &&
-                img.naturalWidth > 0
-            ) {
-
-                resolve();
-
-                return;
-            }
-
-
-            const done =
-                () => {
-
-                    img.removeEventListener(
-                        "load",
-                        done
-                    );
-
-                    img.removeEventListener(
-                        "error",
-                        done
-                    );
-
-                    resolve();
-                };
-
-
-            img.addEventListener(
-                "load",
-                done
-            );
-
-
-            img.addEventListener(
-                "error",
-                done
-            );
-        }
-    );
-}
-
-
-/* =========================================
-   СЛЕДУЮЩИЙ КАДР БРАУЗЕРА
-   ========================================= */
-
-function nextFrame() {
-
-    return new Promise(
-        resolve => {
-
-            requestAnimationFrame(
-                () => resolve()
-            );
-        }
-    );
-}
-
-
-/* =========================================
-   ПАУЗА
-   ========================================= */
+/* ==============================
+   WAIT
+   ============================== */
 
 function wait(ms) {
 
     return new Promise(
-        resolve => {
-
+        resolve =>
             setTimeout(
                 resolve,
                 ms
-            );
-        }
+            )
     );
 }
 
 
-/* =========================================
+/* ==============================
    КЛИКИ
-   ========================================= */
+   ============================== */
 
 leftCan.addEventListener(
     "click",
-    () => {
-
-        chooseCan(
-            "left"
-        );
-    }
+    () =>
+        chooseCan("left")
 );
 
 
 rightCan.addEventListener(
     "click",
-    () => {
-
-        chooseCan(
-            "right"
-        );
-    }
+    () =>
+        chooseCan("right")
 );
 
 
-/* =========================================
+/* ==============================
    ЗАПУСК
-   ========================================= */
+   ============================== */
 
 preloadImages();
 
