@@ -130,6 +130,19 @@ body {
 
     pointer-events: none;
 
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.45s ease,
+        transform 0.6s ease;
+
+    transform:
+        translateX(-50%)
+        translateY(8px)
+        scale(0.82);
+}
+
     /*
        КРИТИЧНО:
        все картинки скрыты,
@@ -673,46 +686,72 @@ function preloadImages() {
 
 function showOnly(stage) {
 
-    /*
-       Сначала физически скрываем ВСЁ.
-    */
-
-    sproutImage.style.display =
-        "none";
-
-    budImage.style.display =
-        "none";
-
-    flowerImage.style.display =
-        "none";
-
+    const stages = [
+        sproutImage,
+        budImage,
+        flowerImage
+    ];
 
     /*
-       Потом показываем ровно
-       ОДНУ нужную картинку.
+       Сначала все стадии плавно скрываем.
     */
+
+    stages.forEach(img => {
+
+        img.style.opacity = "0";
+        img.style.visibility = "hidden";
+
+        img.style.transform =
+            `
+            translateX(-50%)
+            translateY(8px)
+            scale(0.82)
+            `;
+    });
+
+
+    /*
+       Потом выбираем нужную стадию.
+    */
+
+    let activeImage = null;
 
     if (stage === "sprout") {
-
-        sproutImage.style.display =
-            "block";
-
+        activeImage = sproutImage;
     }
 
     else if (stage === "bud") {
-
-        budImage.style.display =
-            "block";
-
+        activeImage = budImage;
     }
 
     else if (stage === "flower") {
-
-        flowerImage.style.display =
-            "block";
-
+        activeImage = flowerImage;
     }
 
+
+    /*
+       Показываем нужную картинку
+       плавно.
+    */
+
+    if (activeImage) {
+
+        activeImage.style.visibility =
+            "visible";
+
+        requestAnimationFrame(() => {
+
+            activeImage.style.opacity =
+                "1";
+
+            activeImage.style.transform =
+                `
+                translateX(-50%)
+                translateY(0)
+                scale(1)
+                `;
+        });
+    }
 }
 
 
@@ -1150,159 +1189,49 @@ function createDrop(
 
 async function growPlant() {
 
-
     /*
-       Если до этого был неправильный ответ,
-       выпрямляем росток.
+       Если до этого росток увял,
+       возвращаем его в нормальное состояние.
     */
 
-    sproutImage.classList.remove(
-        "wilt"
-    );
+    sproutImage.classList.remove("wilt");
 
-
-    sproutImage.style.animation =
-        "none";
-
-
-    sproutImage.style.filter =
-        "none";
-
+    sproutImage.style.animation = "none";
+    sproutImage.style.filter = "none";
 
     sproutImage.style.transform =
         `
         translateX(-50%)
-        rotate(0deg)
         translateY(0)
         scale(1)
         `;
 
 
     /*
-       =========================
        СТАДИЯ 1 — РОСТОК
-       =========================
     */
 
     showOnly("sprout");
 
-
-    await wait(250);
-
-
-    sproutImage.style.transition =
-        "transform .5s ease";
-
-
-    sproutImage.style.transform =
-        `
-        translateX(-50%)
-        scale(1.08)
-        `;
-
-
-    await wait(600);
-
+    await wait(500);
 
 
     /*
-       =========================
        СТАДИЯ 2 — БУТОН
-       =========================
     */
 
     showOnly("bud");
 
-
-    budImage.style.transition =
-        "none";
-
-
-    budImage.style.transform =
-        `
-        translateX(-50%)
-        scale(.72)
-        `;
-
-
-    /*
-       Два кадра, чтобы браузер
-       точно отрисовал бутон.
-    */
-
-    await nextFrame();
-
-    await nextFrame();
-
-
-    budImage.style.transition =
-        "transform .7s ease";
-
-
-    budImage.style.transform =
-        `
-        translateX(-50%)
-        scale(1)
-        `;
-
-
-    /*
-       Бутон специально остаётся
-       видимым достаточно долго.
-    */
-
     await wait(1300);
 
 
-
     /*
-       =========================
        СТАДИЯ 3 — ЦВЕТОК
-       =========================
     */
 
     showOnly("flower");
 
-
-    flowerImage.style.transition =
-        "none";
-
-
-    flowerImage.style.transform =
-        `
-        translateX(-50%)
-        scale(.72)
-        `;
-
-
-    await nextFrame();
-
-    await nextFrame();
-
-
-    flowerImage.style.transition =
-        "transform .7s ease";
-
-
-    flowerImage.style.transform =
-        `
-        translateX(-50%)
-        scale(1.08)
-        `;
-
-
-    await wait(500);
-
-
-    flowerImage.style.transform =
-        `
-        translateX(-50%)
-        scale(1)
-        `;
-
-
-    await wait(400);
-
+    await wait(900);
 }
 
 
