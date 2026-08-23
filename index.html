@@ -529,7 +529,7 @@ const rounds = [
         letter: "Р",
         leftImage: "images/round3_left.PNG",
         rightImage: "images/round3_right.PNG",
-        correct: "right",
+        correct: "left",
 
         budImage:
             "images/plants/flower3.PNG",
@@ -574,12 +574,6 @@ const rounds = [
 let currentRound = 0;
 let animationLocked = false;
 let roundFinished = false;
-
-/*
-   Был ли в этом раунде
-   неправильный ответ?
-*/
-let plantIsWilted = false;
 
 
 /* =========================
@@ -669,11 +663,9 @@ function preloadImages() {
 
     files.forEach(src => {
 
-        const img =
-            new Image();
+        const img = new Image();
 
-        img.src =
-            src;
+        img.src = src;
 
     });
 
@@ -685,10 +677,6 @@ function preloadImages() {
    ========================= */
 
 function resetPlant() {
-
-    plantIsWilted =
-        false;
-
 
     const stages = [
         sproutImage,
@@ -725,8 +713,8 @@ function resetPlant() {
 
 
     /*
-       Новый раунд:
-       только обычный росток.
+       Каждый новый раунд
+       начинается с обычного ростка.
     */
 
     sproutImage.style.visibility =
@@ -1211,107 +1199,17 @@ function createDrop(
 async function growPlant() {
 
     /*
-       ЕСЛИ ДО ЭТОГО БЫЛА ОШИБКА:
-       начинаем рост прямо
-       с увядшего растения.
+       На случай, если до этого
+       ребёнок ошибся:
+       убираем увядший росток.
     */
 
-    if (plantIsWilted) {
+    wiltImage.style.opacity =
+        "0";
 
-        /*
-           Обычный росток не показываем.
-        */
+    wiltImage.style.visibility =
+        "hidden";
 
-        sproutImage.style.opacity =
-            "0";
-
-        sproutImage.style.visibility =
-            "hidden";
-
-
-        /*
-           Увядший росток должен
-           оставаться видимым.
-        */
-
-        wiltImage.style.display =
-            "block";
-
-        wiltImage.style.visibility =
-            "visible";
-
-        wiltImage.style.opacity =
-            "1";
-
-        wiltImage.style.transform =
-            `
-            translateX(-50%)
-            translateY(0)
-            scale(1)
-            `;
-
-
-        /*
-           УВЯДШИЙ → БУТОН
-        */
-
-        await morphPlant(
-            wiltImage,
-            budImage
-        );
-
-
-        await wait(260);
-
-
-        /*
-           БУТОН → ЦВЕТОК
-        */
-
-        await morphPlant(
-            budImage,
-            flowerImage
-        );
-
-
-        flowerImage.style.transition =
-            "transform 0.22s ease-out";
-
-
-        flowerImage.style.transform =
-            `
-            translateX(-50%)
-            translateY(0)
-            scale(1.025)
-            `;
-
-
-        await wait(180);
-
-
-        flowerImage.style.transform =
-            `
-            translateX(-50%)
-            translateY(0)
-            scale(1)
-            `;
-
-
-        await wait(180);
-
-
-        plantIsWilted =
-            false;
-
-
-        return;
-    }
-
-
-    /*
-       ЕСЛИ ОШИБКИ НЕ БЫЛО:
-       обычная последовательность.
-    */
 
     sproutImage.style.display =
         "block";
@@ -1399,13 +1297,8 @@ async function growPlant() {
 async function wiltPlant() {
 
     /*
-       Теперь запоминаем,
-       что растение увяло.
+       Бутон и цветок точно скрыты.
     */
-
-    plantIsWilted =
-        true;
-
 
     budImage.style.opacity =
         "0";
@@ -1422,25 +1315,8 @@ async function wiltPlant() {
 
 
     /*
-       Если ребёнок уже ошибался раньше
-       и снова нажал неправильную лейку,
-       увядший росток просто остаётся.
-    */
-
-    if (
-        wiltImage.style.visibility === "visible" &&
-        wiltImage.style.opacity === "1"
-    ) {
-
-        await wait(250);
-
-        return;
-    }
-
-
-    /*
-       Обычный росток —
-       исходное состояние.
+       Обычный росток показываем
+       как исходную стадию.
     */
 
     sproutImage.style.display =
@@ -1464,7 +1340,8 @@ async function wiltPlant() {
 
 
     /*
-       Готовим увядший росток.
+       Увядший росток готовим
+       поверх обычного.
     */
 
     wiltImage.style.display =
@@ -1492,7 +1369,9 @@ async function wiltPlant() {
 
 
     /*
-       РОСТОК → УВЯДШИЙ
+       МЯГКОЕ УВЯДАНИЕ:
+       обычный росток растворяется,
+       увядший одновременно появляется.
     */
 
     sproutImage.style.transition =
@@ -1538,8 +1417,20 @@ async function wiltPlant() {
     await wait(600);
 
 
+    /*
+       После перехода обычный росток
+       полностью скрываем.
+    */
+
     sproutImage.style.visibility =
         "hidden";
+
+
+    /*
+       Увядший росток остаётся
+       на экране до следующей попытки
+       или до правильного ответа.
+    */
 
 }
 
