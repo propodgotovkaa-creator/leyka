@@ -28,29 +28,6 @@ body {
 
 
 /* =========================
-   ЭКРАН ЗАГРУЗКИ
-   ========================= */
-
-#loadingScreen {
-    position: fixed;
-    inset: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 9999;
-
-    background: #dfeee0;
-
-    color: #4d704c;
-
-    font-size: 32px;
-    font-weight: 800;
-}
-
-
-/* =========================
    ПРАВИЛА ИГРЫ
    ========================= */
 
@@ -58,8 +35,7 @@ body {
     position: fixed;
     inset: 0;
 
-    display: none;
-
+    display: flex;
     justify-content: center;
     align-items: center;
 
@@ -115,7 +91,6 @@ body {
         16px 38px;
 
     border: none;
-
     border-radius: 30px;
 
     background:
@@ -153,8 +128,6 @@ body {
     height: 100vh;
 
     overflow: hidden;
-
-    visibility: hidden;
 }
 
 
@@ -200,7 +173,8 @@ body {
 
     border-radius: 30px;
 
-    background: rgba(255,255,255,0.92);
+    background:
+        rgba(255,255,255,0.92);
 
     color: #4d704c;
 
@@ -208,7 +182,8 @@ body {
     font-weight: 800;
 
     box-shadow:
-        0 5px 14px rgba(0,0,0,0.12);
+        0 5px 14px
+        rgba(0,0,0,0.12);
 }
 
 
@@ -350,7 +325,8 @@ body {
 
     filter:
         drop-shadow(
-            0 10px 8px rgba(0,0,0,0.16)
+            0 10px 8px
+            rgba(0,0,0,0.16)
         );
 }
 
@@ -365,7 +341,8 @@ body {
     left: 50%;
     bottom: 77px;
 
-    transform: translate(-50%, 50%);
+    transform:
+        translate(-50%, 50%);
 
     z-index: 40;
 
@@ -424,7 +401,8 @@ body {
 
     filter:
         drop-shadow(
-            0 8px 7px rgba(0,0,0,0.14)
+            0 8px 7px
+            rgba(0,0,0,0.14)
         );
 }
 
@@ -468,7 +446,6 @@ body {
         17px 36px;
 
     border: none;
-
     border-radius: 30px;
 
     background: white;
@@ -481,7 +458,8 @@ body {
     cursor: pointer;
 
     box-shadow:
-        0 7px 15px rgba(0,0,0,0.15);
+        0 7px 15px
+        rgba(0,0,0,0.15);
 
     z-index: 110;
 
@@ -494,10 +472,10 @@ body {
 
 <body>
 
-<div id="loadingScreen">
-    Загрузка...
-</div>
 
+<!-- =========================
+     ПРАВИЛА
+     ========================= -->
 
 <div id="rulesScreen">
 
@@ -533,6 +511,10 @@ body {
 
 </div>
 
+
+<!-- =========================
+     ИГРА
+     ========================= -->
 
 <div id="viewport">
 
@@ -677,12 +659,6 @@ const DESIGN_HEIGHT = 900;
 
 const game =
     document.getElementById("game");
-
-const viewport =
-    document.getElementById("viewport");
-
-const loadingScreen =
-    document.getElementById("loadingScreen");
 
 const rulesScreen =
     document.getElementById("rulesScreen");
@@ -929,87 +905,6 @@ let plantIsWilted = false;
 
 
 /* =========================
-   ПОЛНАЯ ПРЕДЗАГРУЗКА
-   ========================= */
-
-function loadImage(src) {
-
-    return new Promise(resolve => {
-
-        const img =
-            new Image();
-
-        img.onload =
-            () => resolve();
-
-        img.onerror =
-            () => {
-
-                console.warn(
-                    "Не удалось загрузить:",
-                    src
-                );
-
-                resolve();
-            };
-
-        img.src =
-            src;
-
-    });
-}
-
-
-async function preloadAllImages() {
-
-    const files = [
-
-        "fon.PNG",
-        "gorschok.PNG",
-
-        "images/plants/sprout.PNG",
-        "images/plants/wilt.PNG",
-
-        "images/plants/flower1.PNG",
-        "images/plants/flower1_bud.PNG",
-
-        "images/plants/flower2.PNG",
-        "images/plants/flower2_bud.PNG",
-
-        "images/plants/flower3.PNG",
-        "images/plants/flower3_bud.PNG",
-
-        "images/plants/flower4.PNG",
-        "images/plants/flower4_bud.PNG",
-
-        "images/plants/flower5.PNG",
-        "images/plants/flower5_bud.PNG"
-    ];
-
-
-    for (
-        let i = 1;
-        i <= 15;
-        i++
-    ) {
-
-        files.push(
-            `images/round${i}_left.PNG`
-        );
-
-        files.push(
-            `images/round${i}_right.PNG`
-        );
-    }
-
-
-    await Promise.all(
-        files.map(loadImage)
-    );
-}
-
-
-/* =========================
    СБРОС РАСТЕНИЯ
    ========================= */
 
@@ -1020,12 +915,10 @@ function resetPlant() {
 
 
     const stages = [
-
         sproutImage,
         wiltImage,
         budImage,
         flowerImage
-
     ];
 
 
@@ -1263,9 +1156,7 @@ async function chooseCan(side) {
         animationLocked ||
         roundFinished
     ) {
-
         return;
-
     }
 
 
@@ -1544,11 +1435,6 @@ function createDrop(
 
 async function growPlant() {
 
-    /*
-       Если растение уже увяло,
-       начинаем прямо с него.
-    */
-
     if (plantIsWilted) {
 
 
@@ -1628,10 +1514,6 @@ async function growPlant() {
         return;
     }
 
-
-    /*
-       Обычная последовательность.
-    */
 
     sproutImage.style.display =
         "block";
@@ -1978,7 +1860,6 @@ function wait(ms) {
 
     return new Promise(
         resolve =>
-
             setTimeout(
                 resolve,
                 ms
@@ -2007,7 +1888,7 @@ rightCan.addEventListener(
 
 
 /* =========================
-   КНОПКА "НАЧАТЬ ИГРУ"
+   КНОПКА НАЧАТЬ
    ========================= */
 
 startButton.addEventListener(
@@ -2022,31 +1903,15 @@ startButton.addEventListener(
 
 
 /* =========================
-   ЗАПУСК ИГРЫ
+   ЗАПУСК
    ========================= */
 
-async function startGame() {
+resizeGame();
 
-    resizeGame();
-
-    await preloadAllImages();
-
-    loadRound();
-
-    loadingScreen.style.display =
-        "none";
-
-    viewport.style.visibility =
-        "visible";
-
-    rulesScreen.style.display =
-        "flex";
-}
-
-
-startGame();
+loadRound();
 
 </script>
 
 </body>
+
 </html>
